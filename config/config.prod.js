@@ -1,5 +1,7 @@
 module.exports = appInfo => {
   return {
-
+    proxy: {
+      target: 'http://127.0.0.1:8895'
+    }
   };
 };
