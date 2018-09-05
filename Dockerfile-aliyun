@@ -1,12 +1,12 @@
 FROM daocloud.io/node:8.5-alpine
 
-MAINTAINER yuliang <yuliang@ciwong.com>
+MAINTAINER daizch <daizech@gmail.com>
 
-RUN mkdir -p /data/freelog-resource-provider
+RUN mkdir -p /data/fe-micro-server
 
-WORKDIR /data/freelog-resource-provider
+WORKDIR /data/fe-micro-server
 
-COPY . /data/freelog-resource-provider
+COPY . /data/fe-micro-server
 
 RUN npm install
 
