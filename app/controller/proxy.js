@@ -1,7 +1,7 @@
 'use strict';
 
-const Controller = require('egg').Controller;
-const httpProxy = require('http-proxy-middleware');
+const Controller = require('egg').Controller
+const httpProxy = require('http-proxy-middleware')
 const k2c = require('koa2-connect');
 
 class ProxyController extends Controller {
@@ -16,6 +16,7 @@ class ProxyController extends Controller {
       target: app.config.proxy.target,
       changeOrigin: true
     }))(ctx, next);
+
   }
 }
 

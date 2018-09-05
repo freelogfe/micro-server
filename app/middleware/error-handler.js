@@ -4,8 +4,6 @@ module.exports = () => {
   return async (ctx, next) => {
     const {retCodeEnum, errCodeEnum} = ctx.app
     try {
-      ctx.error = ctx.error.bind(ctx)
-      ctx.success = ctx.success.bind(ctx)
       ctx.request.identityInfo = {} //
       //bodyParserError为上层egg默认首个中间件bodyParser的异常
       if (ctx.request.bodyParserError) {
