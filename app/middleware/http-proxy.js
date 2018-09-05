@@ -6,7 +6,8 @@ const k2c = require('koa2-connect');
 module.exports = (options, app) => {
   const proxyHandler = k2c(httpProxy({
     target: app.config.proxy.target,
-    changeOrigin: true
+    changeOrigin: true,
+    pathRewrite: options.pathRewrite || {}
   }))
 
   return async function _proxyHandler(ctx, next) {
