@@ -4,7 +4,6 @@ const httpProxy = require('http-proxy-middleware');
 const k2c = require('koa2-connect');
 
 module.exports = (options, app) => {
-
   const proxyHandler = k2c(httpProxy({
     target: options.target,
     changeOrigin: true,

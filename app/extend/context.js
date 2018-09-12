@@ -1,5 +1,6 @@
 const extend = require('extend')
 const is = require('is-type-of')
+const _ = require('lodash')
 const retCodeEnum = require('../enum/ret-code')
 const errCodeEnum = require('../enum/error-code')
 
@@ -73,7 +74,7 @@ module.exports = {
     const {app} = this
     const req = this.request
 
-    url = url[0] === '/' ? (app.config.proxy.target + url) : url
+    url = url[0] === '/' ? (app.config.httpProxy.target + url) : url
     options = options || {}
 
     options = extend(true, {
@@ -82,9 +83,10 @@ module.exports = {
       dataType: 'json'
     }, options)
 
-    if (req.body) {
+    if (!options.data && !_.isEmpty(req.body)) {
       options.data = req.body
     }
+
     const result = await this.curl(url, options)
     return result
   },

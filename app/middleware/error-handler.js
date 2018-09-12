@@ -1,8 +1,9 @@
 const is = require('is-type-of')
+const retCodeEnum = require('../enum/ret-code')
+const errCodeEnum = require('../enum/error-code')
 
 module.exports = () => {
   return async (ctx, next) => {
-    const {retCodeEnum, errCodeEnum} = ctx.app
     try {
       ctx.request.identityInfo = {} //
       //bodyParserError为上层egg默认首个中间件bodyParser的异常
