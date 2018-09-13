@@ -4,5 +4,5 @@ module.exports = {
   'get /api/v2/presentables/auth': 'presentable.queryAuth',
   'get /qi/v1/getMyResources.json': 'resource.getMyResources',
   'get /qi/v1/pay/orders.json': 'pay.orders',
-
+  'get /test': 'proxy.test'
 }

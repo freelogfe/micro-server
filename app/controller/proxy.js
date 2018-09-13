@@ -18,6 +18,10 @@ class ProxyController extends Controller {
     }))(ctx, next);
 
   }
+
+  async test(ctx) {
+    ctx.body = 'ok'
+  }
 }
 
 module.exports = ProxyController;

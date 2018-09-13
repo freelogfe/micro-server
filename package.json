@@ -29,7 +29,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts start --port=9001 --env=prod --daemon --title=egg-server-micro-server",
+    "start": "egg-scripts start --title=egg-server-micro-server",
     "stop": "egg-scripts stop --title=egg-server-micro-server",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
@@ -39,7 +39,8 @@
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
     "autod": "autod",
-    "pack": "tar -zcf micro-server.tar app config app.js"
+    "pack": "tar -zcf micro-server.tar app config app.js",
+    "build:docker": "docker build -t=freelog/micro-server -f Dockerfile-aliyun ."
   },
   "ci": {
     "version": "8"
