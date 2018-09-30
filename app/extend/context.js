@@ -80,7 +80,8 @@ module.exports = {
     options = extend(true, {
       method: req.method,
       headers: this.headers,
-      dataType: 'json'
+      dataType: 'json',
+      timeout: 1e4
     }, options)
 
     if (!options.data && !_.isEmpty(req.body)) {
@@ -88,6 +89,7 @@ module.exports = {
     }
 
     const result = await this.curl(url, options)
+
     return result
   },
 

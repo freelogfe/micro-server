@@ -11,10 +11,14 @@ class PresentableController extends Controller {
 
     pids = pids.split(',')
     var result = {}
+    var responses = await ctx.helper.parallel.each(pids, async (pid) => {
+      let lazyFn = ctx.curlRequest(`/api/v1/auths/presentable/${pid}.info?nodeId=${nodeId}`)
+      return lazyFn.then(res => {
+        return {pid, res}
+      })
+    })
 
-    for (let i = 0; i < pids.length; i++) {
-      let pid = pids[i]
-      let res = await ctx.curlRequest(`/api/v1/auths/presentable/${pid}.info?nodeId=${nodeId}`)
+    responses.forEach(({pid, res}) => {
       let data = res.data;
       ['freelog-sub-resource-auth-token', 'freelog-sub-resourceids'].forEach(key => {
         data.data[key] = res.headers[key]
@@ -26,7 +30,7 @@ class PresentableController extends Controller {
       }
 
       result[pid] = res.data.data
-    }
+    })
 
     ctx.success(result)
   }

@@ -3,10 +3,17 @@
 const Controller = require('egg').Controller
 
 class PayController extends Controller {
+
+  /**
+   *
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+
   async orders(ctx) {
     const accountId = ctx.checkQuery('accountId').notEmpty().value
-    var page = ctx.checkQuery('page').notEmpty().value
-    var pageSize = ctx.checkQuery('pageSize').notEmpty().value
+    var page = ctx.checkQuery('page').default(1).toInt().value
+    var pageSize = ctx.checkQuery('pageSize').default(10).toInt().value
 
     ctx.validate()
 
@@ -28,6 +35,7 @@ class PayController extends Controller {
 
 
   async queryRelativeInfo(list) {
+    const {ctx} = this
     let accountsMap = {}
     let queryResultMap = {}
 
@@ -40,27 +48,31 @@ class PayController extends Controller {
       accountsMap[accountType].add(info.ownerId)
     })
 
-    for (let type in accountsMap) {
+    const res = await ctx.helper.parallel.each(Object.keys(accountsMap), async (type) => {
       let arr = Array.from(accountsMap[type])
-      let queryResult
+      let promise
       switch (parseInt(type)) {
         case 1:
-          queryResult = await this.queryUsersInfo(arr);
+          promise = this.queryUsersInfo(arr);
           break;
         case 2:
-          queryResult = await this.queryContractsInfo(arr);
+          promise = this.queryContractsInfo(arr);
           break;
         case 3:
-          queryResult = await this.queryNodesInfo(arr);
+          promise = this.queryNodesInfo(arr);
           break;
         case 4:
-          queryResult = await this.queryOrgsInfo(arr);
+          promise = this.queryOrgsInfo(arr);
           break;
         default:
-          queryResult = {}
+          promise = Promise.resolve()
       }
-      Object.assign(queryResultMap, queryResult)
-    }
+      return promise
+    })
+
+    res.forEach(queryResult => {
+      Object.assign(queryResultMap, queryResult || {})
+    })
     return queryResultMap
   }
 
