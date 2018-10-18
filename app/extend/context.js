@@ -22,8 +22,12 @@ module.exports = {
    * @param errCode
    * @param retCode
    */
-  error({msg, errCode, retCode, data}) {
+  error(params) {
+    var {msg, errCode, retCode, data} = params
     const message = msg || 'proxy内部异常'
+
+    errCode = is.undefined(errCode) ? params.errcode : errCode
+    retCode = is.undefined(retCode) ? params.ret : retCode
 
     throw Object.assign(new Error(message), {
       retCode: retCode ? retCode : retCodeEnum.success,

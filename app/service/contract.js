@@ -7,7 +7,8 @@ class ContractService extends Service {
     if (Array.isArray(params.contractIds)) {
       params.contractIds = params.contractIds.join(',')
     }
-    const data = await ctx.service.list.queryList('/api/v1/contracts', params)
+
+    const data = await ctx.service.list.queryList('/api/v1/contracts/contractRecords', params)
     return data
   }
 }

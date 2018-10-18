@@ -7,8 +7,12 @@ class ListService extends Service {
       data: params
     })
 
-    const data =  result.data
-    return (data.ret === 0 && data.errcode === 0)? data.data : {}
+    const data = result.data
+    if (data.ret === 0 && data.errcode === 0) {
+      return data.data
+    } else {
+      ctx.error(data)
+    }
   }
 }
 
