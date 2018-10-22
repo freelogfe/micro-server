@@ -13,7 +13,6 @@ module.exports = {
    */
   success(data) {
     this.body = this.toBody(retCodeEnum.success, errCodeEnum.success, 'success', data)
-
     return this
   },
 

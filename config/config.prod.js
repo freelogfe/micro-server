@@ -6,7 +6,7 @@ module.exports = appInfo => {
     // pathRewrite: {
     //   '^/api/v1': '/test/v1'
     // }
-    target: 'http://112.74.140.101'
+    target: 'https://api.freelog.com'
   }
 
   return config;
