@@ -7,7 +7,10 @@ module.exports = (options, app) => {
   const proxyHandler = k2c(httpProxy({
     target: options.target,
     changeOrigin: true,
-    pathRewrite: options.pathRewrite || {}
+    pathRewrite: options.pathRewrite || {},
+    onProxyRes: function (proxyRes, req, res) {
+      proxyRes.headers['access-control-allow-origin'] = req.headers.origin
+    }
   }))
 
   return async function _proxyHandler(ctx, next) {
@@ -15,11 +18,6 @@ module.exports = (options, app) => {
       return !!re.exec(ctx.request.path)
     })
 
-    // if (app.config.env === 'local') {
-    //   console.log('app.config.env', app.config.env,ctx.request.header.origin)
-    //   ctx.set('Access-Control-Allow-Origin', ctx.request.header.origin)
-    // }
-    // ctx.set('access-control-allow-origin', ctx.request.header.origin)
     if (isPass) {
       await next()
     } else {

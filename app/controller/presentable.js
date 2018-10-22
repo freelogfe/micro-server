@@ -12,7 +12,7 @@ class PresentableController extends Controller {
     pids = pids.split(',')
     var result = {}
     var responses = await ctx.helper.parallel.each(pids, async (pid) => {
-      let lazyFn = ctx.curlRequest(`/api/v1/auths/presentable/${pid}.info?nodeId=${nodeId}`)
+      let lazyFn = ctx.curlRequest(`/v1/auths/presentable/${pid}.info?nodeId=${nodeId}`)
       return lazyFn.then(res => {
         return {pid, res}
       })

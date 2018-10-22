@@ -6,14 +6,14 @@ const _ = require('lodash')
 class ResourceController extends Controller {
   //请求合并demo
   async index(ctx) {
-    const res1 = await ctx.curlRequest('/api/v1/nodes/pagebuilds/78', {
+    const res1 = await ctx.curlRequest('/v1/nodes/pagebuilds/78', {
       method: 'put',
       data: {
         nodeId: 10022,
         status: 1
       }
     })
-    const res2 = await ctx.curlRequest(`/api/v1/nodes?ownerUserId=10005`)
+    const res2 = await ctx.curlRequest(`/v1/nodes?ownerUserId=10005`)
 
     const result = ctx.helper.mergeResponse([res1, res2])
     ctx.status = result.status || 200
@@ -33,8 +33,7 @@ class ResourceController extends Controller {
   async getMyResources(ctx) {
     var params = Object.assign({contractType: 3}, ctx.query || {})
     var data = await ctx.service.contract.queryList(params)
-
-    if (data.dataList.length) {
+    if (data && data.dataList.length) {
       let nodeIds = new Set()
       let resourceIds = new Set()
       data.dataList.forEach((contract) => {

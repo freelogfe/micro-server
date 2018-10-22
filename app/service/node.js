@@ -7,7 +7,7 @@ class NodeService extends Service {
     if (Array.isArray(params.nodeIds)) {
       params.nodeIds = params.nodeIds.join(',')
     }
-    const data = await ctx.service.list.queryList('/api/v1/nodes/list', params)
+    const data = await ctx.service.list.queryList('/v1/nodes/list', params)
     return data
   }
 }

@@ -10,7 +10,7 @@ class ResourceService extends Service {
     if (Array.isArray(params.resourceIds)) {
       params.resourceIds = params.resourceIds.join(',')
     }
-    const data = await ctx.service.list.queryList('/api/v1/resources/list', params)
+    const data = await ctx.service.list.queryList('/v1/resources/list', params)
     return data
   }
 }

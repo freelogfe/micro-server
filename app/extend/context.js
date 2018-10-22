@@ -90,9 +90,7 @@ module.exports = {
     if (!options.data && !_.isEmpty(req.body)) {
       options.data = req.body
     }
-
     const result = await this.curl(url, options)
-
     return result
   },
 

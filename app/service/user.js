@@ -7,7 +7,7 @@ class UserService extends Service {
       params.userIds = params.userIds.join(',')
     }
 
-    const data = await ctx.service.list.queryList('/api/v1/userinfos', params)
+    const data = await ctx.service.list.queryList('/v1/userinfos', params)
     return data
   }
 }

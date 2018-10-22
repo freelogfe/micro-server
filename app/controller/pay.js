@@ -17,12 +17,12 @@ class PayController extends Controller {
 
     ctx.validate()
 
-    let res = await ctx.curlRequest(`/api/v1/pay/accounts/tradeRecords`, {
+    let res = await ctx.curlRequest(`/v1/pay/accounts/tradeRecords`, {
       data: {accountId, page, pageSize}
     })
     let data = res.data;
 
-    if (data.errcode || data.ret) {
+    if (data.errcode || data.ret || !data.data) {
       ctx.error({errCode: data.errcode, retCode: data.ret, msg: data.msg, data: data.data})
     } else {
       let relativeInfoMap = await this.queryRelativeInfo(data.data.dataList)
