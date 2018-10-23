@@ -13,7 +13,5 @@ module.exports = app => {
     router[method](path, objectPath.get(controller, routeMap[key]));
   });
 
-  // ;["get", "post", "put", "delete", "options"].forEach(method => {
-  //   router[method]('/api/*', controller.proxy.handle)
-  // })
+  router.options('*', controller.proxy.preflight)
 };

@@ -2,6 +2,7 @@
 
 const httpProxy = require('http-proxy-middleware');
 const k2c = require('koa2-connect');
+const helper = require('../extend/helper')
 
 module.exports = (options, app) => {
   const proxyHandler = k2c(httpProxy({
@@ -9,7 +10,10 @@ module.exports = (options, app) => {
     changeOrigin: true,
     pathRewrite: options.pathRewrite || {},
     onProxyRes: function (proxyRes, req, res) {
-      proxyRes.headers['access-control-allow-origin'] = req.headers.origin
+      const origin = req.headers.origin
+      if (helper.isSafeOrigin(origin)) {
+        proxyRes.headers['access-control-allow-origin'] = origin
+      }
     }
   }))
 
@@ -18,7 +22,7 @@ module.exports = (options, app) => {
       return !!re.exec(ctx.request.path)
     })
 
-    if (isPass) {
+    if (isPass || ctx.method === 'OPTIONS') {
       await next()
     } else {
       proxyHandler(ctx, next);

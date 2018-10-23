@@ -71,5 +71,8 @@ module.exports = {
 
       return val
     })
+  },
+  isSafeOrigin(origin) {
+    return /^https?:\/\/\w+\.(test)?freelog\.com$/.test(origin)
   }
 };

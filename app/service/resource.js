@@ -1,10 +1,6 @@
 const Service = require('egg').Service;
 
 class ResourceService extends Service {
-  async find() {
-    const {ctx} = this
-  }
-
   async queryList(params) {
     const {ctx} = this
     if (Array.isArray(params.resourceIds)) {

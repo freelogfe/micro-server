@@ -16,7 +16,17 @@ class ProxyController extends Controller {
       target: app.config.proxy.target,
       changeOrigin: true
     }))(ctx, next);
+  }
 
+  async preflight(ctx) {
+    if (ctx.helper.isSafeOrigin(ctx.request.headers.origin)) {
+      ctx.set('access-control-allow-origin', ctx.request.headers.origin)
+      ctx.set('access-control-allow-methods', 'GET,POST,OPTIONS,DELETE,PUT')
+      ctx.set('access-control-allow-headers', 'Content-Type,method')
+      ctx.status = 204
+    } else {
+      ctx.status = 403
+    }
   }
 }
 
