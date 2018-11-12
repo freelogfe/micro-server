@@ -1,38 +1,41 @@
-const is = require('is-type-of')
-const retCodeEnum = require('../enum/ret-code')
-const errCodeEnum = require('../enum/error-code')
+'use strict';
+
+const is = require('is-type-of');
+const retCodeEnum = require('../enum/ret-code');
+const errCodeEnum = require('../enum/error-code');
 
 module.exports = () => {
   return async (ctx, next) => {
     try {
-      ctx.request.identityInfo = {} //
-      //bodyParserError为上层egg默认首个中间件bodyParser的异常
+      ctx.request.identityInfo = {}; //
+      // bodyParserError为上层egg默认首个中间件bodyParser的异常
       if (ctx.request.bodyParserError) {
         throw Object.assign(ctx.request.bodyParserError, {
           retCode: retCodeEnum.success,
           errCode: errCodeEnum.paramValidateError,
-          data: 'bodyParse数据转换异常,请检查传入的数据是否符合接口规范'
-        })
+          data: 'bodyParse数据转换异常,请检查传入的数据是否符合接口规范',
+        });
       }
 
-      ctx.errors = []
+      ctx.errors = [];
 
-      await next()
+      await next();
 
       if (ctx.body === undefined && /^[2|3]{1}\d{2}$/.test(ctx.response.status)) {
-        ctx.body = ctx.toBody(retCodeEnum.success, errCodeEnum.success, 'success', null)
+        ctx.body = ctx.toBody(retCodeEnum.success, errCodeEnum.success, 'success', null);
       }
     } catch (e) {
+
       if (is.nullOrUndefined(e)) {
-        e = new Error("not defined error")
+        e = new Error('not defined error'); // eslint-disable-line
       }
       if (!is.int(e.retCode)) {
-        e.retCode = retCodeEnum.serverError
+        e.retCode = retCodeEnum.serverError;
       }
       if (!is.int(e.errCode)) {
-        e.errCode = errCodeEnum.autoSnapError
+        e.errCode = errCodeEnum.autoSnapError;
       }
-      ctx.body = ctx.toBody(e.retCode, e.errCode, e.message || e.toString(), e.data)
+      ctx.body = ctx.toBody(e.retCode, e.errCode, e.message || e.toString(), e.data);
     }
-  }
-}
+  };
+};
