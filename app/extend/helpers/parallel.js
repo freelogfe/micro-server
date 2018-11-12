@@ -1,32 +1,34 @@
+'use strict';
+
 class AsyncParallel {
   constructor() {
-    this.reset()
+    this.reset();
   }
 
   push(fn) {
-    this.asyncFns.push(fn)
+    this.asyncFns.push(fn);
   }
 
   async run() {
-    var ret = await Promise.all(this.asyncFns)
-    this.reset()
-    return ret
+    const ret = await Promise.all(this.asyncFns);
+    this.reset();
+    return ret;
   }
 
 
   reset() {
-    this.asyncFns = []
+    this.asyncFns = [];
   }
 
   async each(list, fn) {
-    this.reset()
+    this.reset();
     for (let i = 0; i < list.length; i++) {
-      let asyncFn = fn(list[i], i)
-      this.asyncFns.push(asyncFn)
+      const asyncFn = fn(list[i], i);
+      this.asyncFns.push(asyncFn);
     }
 
-    return await this.run()
+    return await this.run();
   }
 }
 
-module.exports = new AsyncParallel()
+module.exports = new AsyncParallel();

@@ -1,6 +1,10 @@
 # micro-server
 
-micro server for freelog
+
+> micro server for freelog ![](https://travis-ci.org/freelogfe/micro-server.svg?branch=master)
+
+
+
 
 ## QuickStart
 

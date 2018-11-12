@@ -1,13 +1,14 @@
+'use strict';
+
 const Service = require('egg').Service;
 
 class ResourceService extends Service {
   async queryList(params) {
-    const {ctx} = this
+    const { ctx } = this;
     if (Array.isArray(params.resourceIds)) {
-      params.resourceIds = params.resourceIds.join(',')
+      params.resourceIds = params.resourceIds.join(',');
     }
-    const data = await ctx.service.list.queryList('/v1/resources/list', params)
-    return data
+    return ctx.service.list.queryList('/v1/resources/list', params);
   }
 }
 

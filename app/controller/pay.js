@@ -1,6 +1,6 @@
 'use strict';
 
-const Controller = require('egg').Controller
+const Controller = require('egg').Controller;
 
 class PayController extends Controller {
 
@@ -11,46 +11,46 @@ class PayController extends Controller {
    */
 
   async orders(ctx) {
-    const accountId = ctx.checkQuery('accountId').notEmpty().value
-    var page = ctx.checkQuery('page').default(1).toInt().value
-    var pageSize = ctx.checkQuery('pageSize').default(10).toInt().value
+    const accountId = ctx.checkQuery('accountId').notEmpty().value;
+    const page = ctx.checkQuery('page').default(1).toInt().value;
+    const pageSize = ctx.checkQuery('pageSize').default(10).toInt().value;
 
-    ctx.validate()
+    ctx.validate();
 
-    let res = await ctx.curlRequest(`/v1/pay/accounts/tradeRecords`, {
-      data: {accountId, page, pageSize}
-    })
-    let data = res.data;
+    const res = await ctx.curlRequest('/v1/pay/accounts/tradeRecords', {
+      data: { accountId, page, pageSize },
+    });
+    const data = res.data;
 
     if (data.errcode || data.ret || !data.data) {
-      ctx.error({errCode: data.errcode, retCode: data.ret, msg: data.msg, data: data.data})
+      ctx.error({ errCode: data.errcode, retCode: data.ret, msg: data.msg, data: data.data });
     } else {
-      let relativeInfoMap = await this.queryRelativeInfo(data.data.dataList)
+      const relativeInfoMap = await this.queryRelativeInfo(data.data.dataList);
       data.data.dataList.forEach(item => {
-        item.targetInfo = relativeInfoMap[item.correlativeInfo.ownerId]
-      })
-      ctx.success(data.data)
+        item.targetInfo = relativeInfoMap[item.correlativeInfo.ownerId];
+      });
+      ctx.success(data.data);
     }
   }
 
 
   async queryRelativeInfo(list) {
-    const {ctx} = this
-    let accountsMap = {}
-    let queryResultMap = {}
+    const { ctx } = this;
+    const accountsMap = {};
+    const queryResultMap = {};
 
     list.forEach(item => {
-      let info = item.correlativeInfo
-      let accountType = info.accountType
+      const info = item.correlativeInfo;
+      const accountType = info.accountType;
       if (!accountsMap[accountType]) {
-        accountsMap[accountType] = new Set()
+        accountsMap[accountType] = new Set();
       }
-      accountsMap[accountType].add(info.ownerId)
-    })
+      accountsMap[accountType].add(info.ownerId);
+    });
 
-    const res = await ctx.helper.parallel.each(Object.keys(accountsMap), async (type) => {
-      let arr = Array.from(accountsMap[type])
-      let promise
+    const res = await ctx.helper.parallel.each(Object.keys(accountsMap), async type => {
+      const arr = Array.from(accountsMap[type]);
+      let promise;
       switch (parseInt(type)) {
         case 1:
           promise = this.queryUsersInfo(arr);
@@ -65,47 +65,47 @@ class PayController extends Controller {
           promise = this.queryOrgsInfo(arr);
           break;
         default:
-          promise = Promise.resolve()
+          promise = Promise.resolve();
       }
-      return promise
-    })
+      return promise;
+    });
 
     res.forEach(queryResult => {
-      Object.assign(queryResultMap, queryResult || {})
-    })
-    return queryResultMap
+      Object.assign(queryResultMap, queryResult || {});
+    });
+    return queryResultMap;
   }
 
   async queryContractsInfo(contractIds) {
-    const {ctx} = this
-    let list = await ctx.service.contract.queryList({contractIds})
+    const { ctx } = this;
+    const list = await ctx.service.contract.queryList({ contractIds });
 
-    return this.array2obj(list, 'contractId')
+    return this.array2obj(list, 'contractId');
   }
 
   async queryUsersInfo(userIds) {
-    const {ctx} = this
-    let list = await ctx.service.user.queryList({userIds})
-    return this.array2obj(list, 'userId')
+    const { ctx } = this;
+    const list = await ctx.service.user.queryList({ userIds });
+    return this.array2obj(list, 'userId');
   }
 
   async queryNodesInfo(nodeIds) {
-    const {ctx} = this
-    let list = await ctx.service.node.queryList({nodeIds})
-    return this.array2obj(list, 'nodeId')
+    const { ctx } = this;
+    const list = await ctx.service.node.queryList({ nodeIds });
+    return this.array2obj(list, 'nodeId');
   }
 
   async queryOrgsInfo() {
-    return {}
+    return {};
   }
 
   array2obj(arr, key) {
-    let obj = Object.create(null)
+    const obj = Object.create(null);
     arr.forEach(item => {
-      obj[item[key]] = item
-    })
+      obj[item[key]] = item;
+    });
 
-    return obj
+    return obj;
   }
 }
 
