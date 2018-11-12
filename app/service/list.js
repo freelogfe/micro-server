@@ -6,6 +6,7 @@ class ListService extends Service {
     const result = await ctx.curlRequest(url, {
       data: params
     })
+
     const data = result.data
     if (data.ret === 0 && data.errcode === 0) {
       return data.data
@@ -16,3 +17,4 @@ class ListService extends Service {
 }
 
 module.exports = ListService;
+

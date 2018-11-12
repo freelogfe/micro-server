@@ -18,3 +18,4 @@ class ContractService extends Service {
 }
 
 module.exports = ContractService;
+

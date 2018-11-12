@@ -4,7 +4,7 @@ const Controller = require('egg').Controller
 
 class ResourceController extends Controller {
   async getMyResources(ctx) {
-    var params = Object.assign({contractType: 3}, ctx.query || {})
+    var params = Object.assign({contractType: 3, isDefault: 1}, ctx.query || {})
     var data = await ctx.service.contract.queryList(params)
 
     if (data && data.dataList.length) {
