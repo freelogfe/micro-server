@@ -71,7 +71,6 @@ module.exports = {
     if (!options.data && !_.isEmpty(req.body)) {
       options.data = req.body;
     }
-    debugger
 
     const result = await this.curl(url, options);
     return result;
