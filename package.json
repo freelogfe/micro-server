@@ -28,7 +28,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test"
+      "pre-push": "node scripts/pre-push.js"
     }
   },
   "engines": {
