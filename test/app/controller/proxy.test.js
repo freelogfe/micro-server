@@ -53,6 +53,7 @@ describe('test/app/controller/home.test.js', () => {
       .expect(({body}) => {
         requestSuccess(body)
         assert(body.data.hasOwnProperty('dataList'))
+        assert(Array.isArray(body.data.dataList))
         assert(body.data.hasOwnProperty('totalItem'))
       });
   });
@@ -71,6 +72,7 @@ describe('test/app/controller/home.test.js', () => {
     return httpRequest('/v1/presentables/auth.json?nodeId=10003&pids=5be928abbfb8f8002bce53ce')
       .expect(({body}) => {
         requestSuccess(body)
+        assert(typeof body.data === 'object')
         assert.equal(body.msg, 'success')
       });
   });

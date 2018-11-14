@@ -27,7 +27,7 @@ class PayController extends Controller {
     } else {
       const relativeInfoMap = await this.queryRelativeInfo(data.data.dataList);
       data.data.dataList.forEach(item => {
-        item.targetInfo = relativeInfoMap[item.correlativeInfo.ownerId];
+        item.targetInfo = relativeInfoMap[item.correlativeInfo.ownerId] || {};
       });
       ctx.success(data.data);
     }
@@ -48,7 +48,7 @@ class PayController extends Controller {
       accountsMap[accountType].add(info.ownerId);
     });
 
-    const res = await ctx.helper.parallel.each(Object.keys(accountsMap), async type => {
+    var promises = Object.keys(accountsMap).map(async type => {
       const arr = Array.from(accountsMap[type]);
       let promise;
       switch (parseInt(type)) {
@@ -68,7 +68,8 @@ class PayController extends Controller {
           promise = Promise.resolve();
       }
       return promise;
-    });
+    })
+    const res = await Promise.all(promises)
 
     res.forEach(queryResult => {
       Object.assign(queryResultMap, queryResult || {});

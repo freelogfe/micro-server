@@ -16,12 +16,14 @@ class PresentableController extends Controller {
 
     pids = pids.split(',');
     const result = {};
-    const responses = await ctx.helper.parallel.each(pids, async pid => {
+
+    var promises = pids.map(async pid => {
       const lazyFn = ctx.curlRequest(`/v1/auths/presentable/${pid}.info?nodeId=${nodeId}`);
       return lazyFn.then(res => {
         return { pid, res };
       });
-    });
+    })
+    const responses = await Promise.all(promises)
 
     responses.forEach(({ pid, res }) => {
       const data = res.data;
