@@ -42,8 +42,8 @@
     "test": "npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "lint": "eslint .",
-    "ci": "npm run lint && npm run cov",
+    "lint": "eslint . --fix",
+    "ci": "npm run cov",
     "autod": "autod",
     "pack": "tar -zcf micro-server.tar app config app.js",
     "build:docker": "docker build -t=freelog/micro-server -f Dockerfile-aliyun ."

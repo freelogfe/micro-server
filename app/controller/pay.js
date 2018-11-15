@@ -47,7 +47,7 @@ class PayController extends Controller {
       accountsMap[accountType].add(info.ownerId);
     });
 
-    var promises = Object.keys(accountsMap).map(async type => {
+    const promises = Object.keys(accountsMap).map(async type => {
       const arr = Array.from(accountsMap[type]);
       let promise;
       switch (parseInt(type)) {
@@ -67,8 +67,8 @@ class PayController extends Controller {
           promise = Promise.resolve();
       }
       return promise;
-    })
-    const res = await Promise.all(promises)
+    });
+    const res = await Promise.all(promises);
 
     res.forEach(queryResult => {
       Object.assign(queryResultMap, queryResult || {});

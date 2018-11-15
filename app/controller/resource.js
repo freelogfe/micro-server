@@ -15,10 +15,10 @@ class ResourceController extends Controller {
         resourceIds.add(contract.resourceId);
       });
 
-      const [resources, nodes] = await Promise.all([
+      const [ resources, nodes ] = await Promise.all([
         ctx.service.resource.queryList({ resourceIds: Array.from(resourceIds) }),
-        ctx.service.node.queryList({ nodeIds: Array.from(nodeIds) })
-      ])
+        ctx.service.node.queryList({ nodeIds: Array.from(nodeIds) }),
+      ]);
 
       ctx.helper.mergeBy(data.dataList, resources, 'resourceId', 'resourceInfo');
       ctx.helper.mergeBy(data.dataList, nodes, {
