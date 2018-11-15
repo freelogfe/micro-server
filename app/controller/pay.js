@@ -23,7 +23,7 @@ class PayController extends Controller {
     const data = res.data;
 
     if (data.errcode || data.ret || !data.data) {
-      ctx.error({ errCode: data.errcode, retCode: data.ret, msg: data.msg, data: data.data });
+      ctx.error({ errcode: data.errcode, retcode: data.ret, msg: data.msg, data: data.data });
     } else {
       const relativeInfoMap = await this.queryRelativeInfo(data.data.dataList);
       data.data.dataList.forEach(item => {
@@ -35,7 +35,6 @@ class PayController extends Controller {
 
 
   async queryRelativeInfo(list) {
-    const { ctx } = this;
     const accountsMap = {};
     const queryResultMap = {};
 

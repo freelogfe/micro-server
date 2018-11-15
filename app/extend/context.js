@@ -16,15 +16,15 @@ module.exports = {
 
   /* 定义错误返回的API数据结构 */
   error(params) {
-    let { msg, errCode, retCode, data } = params;
+    let { msg, errcode, retcode, data } = params;
     const message = msg || 'proxy内部异常';
 
-    errCode = is.undefined(errCode) ? params.errcode : errCode;
-    retCode = is.undefined(retCode) ? params.ret : retCode;
+    errcode = is.undefined(errcode) ? params.errcode : errcode;
+    retcode = is.undefined(retcode) ? params.ret : retcode;
 
     throw Object.assign(new Error(message), {
-      retCode: retCode ? retCode : retCodeEnum.success,
-      errCode: errCode ? errCode : errCodeEnum.apiError,
+      retcode: retcode ? retcode : retCodeEnum.success,
+      errcode: errcode ? errcode : errCodeEnum.apiError,
       data: !is.undefined(data) ? data : is.error(arguments[0]) ? arguments[0].data : undefined,
     });
   },
@@ -38,16 +38,16 @@ module.exports = {
     const msg = `参数校验失败,details:${JSON.stringify(this.errors)}`;
     this.error({
       msg,
-      errCode: errCodeEnum.paramValidateError,
+      errcode: errCodeEnum.paramValidateError,
     });
   },
 
   /* 构建API返回数据格式 */
-  toBody(ret, errCode, msg, data) {
+  toBody(ret, errcode, msg, data) {
     const result = {
       ret: is.int32(ret) ? ret : retCodeEnum.success,
-      errcode: is.int32(errCode) ? errCode : errCodeEnum.success,
-      msg: is.string(msg) || is.number(msg) ? msg.toString() : 'success',
+      errcode: is.int32(errcode) ? errcode : errCodeEnum.success,
+      msg: (is.string(msg) || is.number(msg)) ? msg.toString() : 'success',
       data: is.nullOrUndefined(data) ? null : data,
     };
     return result;

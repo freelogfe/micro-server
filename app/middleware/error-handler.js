@@ -11,8 +11,8 @@ module.exports = () => {
       // bodyParserError为上层egg默认首个中间件bodyParser的异常
       if (ctx.request.bodyParserError) {
         throw Object.assign(ctx.request.bodyParserError, {
-          retCode: retCodeEnum.success,
-          errCode: errCodeEnum.paramValidateError,
+          retcode: retCodeEnum.success,
+          errcode: errCodeEnum.paramValidateError,
           data: 'bodyParse数据转换异常,请检查传入的数据是否符合接口规范',
         });
       }
@@ -29,13 +29,13 @@ module.exports = () => {
       if (is.nullOrUndefined(e)) {
         e = new Error('not defined error'); // eslint-disable-line
       }
-      if (!is.int(e.retCode)) {
-        e.retCode = retCodeEnum.serverError;
+      if (!is.int(e.retcode)) {
+        e.retcode = retCodeEnum.serverError;
       }
-      if (!is.int(e.errCode)) {
-        e.errCode = errCodeEnum.autoSnapError;
+      if (!is.int(e.erreode)) {
+        e.erreode = errCodeEnum.autoSnapError;
       }
-      ctx.body = ctx.toBody(e.retCode, e.errCode, e.message || e.toString(), e.data);
+      ctx.body = ctx.toBody(e.retcode, e.erreode, e.message || e.toString(), e.data);
     }
   };
 };
