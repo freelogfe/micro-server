@@ -18,6 +18,7 @@ module.exports = options => {
   }));
 
   return async function _proxyHandler(ctx, next) {
+
     const isPass = options.ignore.some(re => {
       return !!re.exec(ctx.request.path);
     });

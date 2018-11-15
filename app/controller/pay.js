@@ -78,7 +78,7 @@ class PayController extends Controller {
 
   async queryContractsInfo(contractIds) {
     const { ctx } = this;
-    const list = await ctx.service.contract.queryList({ contractIds });
+    const list = await ctx.service.contract.queryListByIds({ contractIds });
 
     return this.array2obj(list, 'contractId');
   }

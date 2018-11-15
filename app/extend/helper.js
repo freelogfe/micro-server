@@ -1,35 +1,10 @@
 'use strict';
-
-const extend = require('extend');
 const is = require('is-type-of');
 
 module.exports = {
   // this 是 helper 对象，在其中可以调用其他 helper 方法
   // this.ctx => context 对象
   // this.app => application 对象
-  isStatusOk(res) {
-    return res.status === 200;
-  },
-
-  isDataError(res) {
-    const data = res.data;
-    return data.ret !== 0;
-  },
-
-  mergeResponse(responses) {
-    for (let i = 0; i < responses.length; i++) {
-      const res = responses[i];
-      if (this.isDataError(res) || !this.isStatusOk(res)) {
-        return res;
-      }
-    }
-
-    return responses.reduce((data, res) => {
-      extend(true, data, res.data);
-      return data;
-    }, {});
-  },
-
   /**
    *
    * @param {array} target 被合并的目标数组
