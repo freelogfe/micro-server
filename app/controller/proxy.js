@@ -1,31 +1,31 @@
-'use strict';
+'use strict'
 
-const Controller = require('egg').Controller;
-const httpProxy = require('http-proxy-middleware');
-const k2c = require('koa2-connect');
+const Controller = require('egg').Controller
+const httpProxy = require('http-proxy-middleware')
+const k2c = require('koa2-connect')
 
 class ProxyController extends Controller {
   /* 代理前端请求到后台服务器 */
   async handle(ctx, next) {
-    const { app } = this;
+    const { app } = this
     k2c(httpProxy({
       target: app.config.proxy.target,
       changeOrigin: true,
-    }))(ctx, next);
+    }))(ctx, next)
   }
 
   /* 预检请求处理 */
   async preflight(ctx) {
     if (ctx.helper.isSafeOrigin(ctx.request.headers.origin)) {
-      ctx.set('access-control-allow-origin', ctx.request.headers.origin);
-      ctx.set('access-control-allow-methods', 'GET,POST,OPTIONS,DELETE,PUT');
-      ctx.set('access-control-allow-headers', 'Content-Type,method');
-      ctx.set('access-control-expose-headers', 'freelog-meta,freelog-resource-type,freelog-sub-resource-auth-token,freelog-sub-resourceids,freelog-system-meta');
-      ctx.status = 204;
+      ctx.set('access-control-allow-origin', ctx.request.headers.origin)
+      ctx.set('access-control-allow-methods', 'GET,POST,OPTIONS,DELETE,PUT')
+      ctx.set('access-control-allow-headers', 'Content-Type,method')
+      ctx.set('access-control-expose-headers', 'freelog-meta,freelog-resource-type,freelog-sub-resource-auth-token,freelog-sub-resourceids,freelog-system-meta')
+      ctx.status = 204
     } else {
-      ctx.status = 403;
+      ctx.status = 403
     }
   }
 }
 
-module.exports = ProxyController;
+module.exports = ProxyController

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * 以8开头定义错误码，方便区别于后端的错误码
@@ -11,4 +11,4 @@ module.exports = {
   apiError: 82,
   // 自动捕捉错误
   autoSnapError: 83,
-};
+}

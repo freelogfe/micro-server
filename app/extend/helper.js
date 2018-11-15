@@ -1,5 +1,5 @@
-'use strict';
-const is = require('is-type-of');
+'use strict'
+const is = require('is-type-of')
 
 module.exports = {
   // this 是 helper 对象，在其中可以调用其他 helper 方法
@@ -15,39 +15,39 @@ module.exports = {
    */
   mergeBy(target, src, key, mergeFn) {
     if (!key) {
-      throw new Error('need key parameter for mergeBy function');
+      throw new Error('need key parameter for mergeBy function')
     }
 
-    const srcMap = {};
-    let srcKey = key;
-    let targetKey;
+    const srcMap = {}
+    let srcKey = key
+    let targetKey
 
     if (is.string(key)) {
-      srcKey = targetKey = key;
+      srcKey = targetKey = key
     } else if (is.object(key)) { // key map
-      srcKey = key.src;
-      targetKey = key.target;
+      srcKey = key.src
+      targetKey = key.target
     }
     src.forEach(val => {
-      srcMap[val[srcKey]] = val;
-    });
+      srcMap[val[srcKey]] = val
+    })
 
     return target.map(val => {
-      const srcVal = srcMap[val[targetKey]];
+      const srcVal = srcMap[val[targetKey]]
       if (srcVal) {
         if (is.function(mergeFn)) {
-          val = mergeFn(val, srcVal);
+          val = mergeFn(val, srcVal)
         } else if (is.string(mergeFn)) {
-          val[mergeFn] = srcVal;
+          val[mergeFn] = srcVal
         } else {
-          val = Object.assign(val, srcVal);
+          val = Object.assign(val, srcVal)
         }
       }
 
-      return val;
-    });
+      return val
+    })
   },
   isSafeOrigin(origin) {
-    return /^https?:\/\/\w+\.(test)?freelog\.com$/.test(origin);
+    return /^https?:\/\/\w+\.(test)?freelog\.com$/.test(origin)
   },
-};
+}

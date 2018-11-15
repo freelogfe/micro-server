@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
-const Service = require('egg').Service;
+const Service = require('egg').Service
 
 class NodeService extends Service {
   async queryList(params) {
-    const { ctx } = this;
+    const { ctx } = this
 
     if (Array.isArray(params.nodeIds)) {
-      params.nodeIds = params.nodeIds.join(',');
+      params.nodeIds = params.nodeIds.join(',')
     }
-    return ctx.service.list.queryList('/v1/nodes/list', params);
+    return ctx.service.list.queryList('/v1/nodes/list', params)
   }
 }
 
-module.exports = NodeService;
+module.exports = NodeService

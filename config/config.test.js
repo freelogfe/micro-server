@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 module.exports = () => {
-  const config = {};
+  const config = {}
 
   config.httpProxy = {
     target: 'http://api.testfreelog.com',
-  };
+  }
 
-  return config;
-};
+  return config
+}

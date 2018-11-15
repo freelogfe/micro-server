@@ -1,45 +1,45 @@
-'use strict';
+'use strict'
 
-const extend = require('extend');
-const is = require('is-type-of');
-const _ = require('lodash');
-const retCodeEnum = require('../enum/ret-code');
-const errCodeEnum = require('../enum/error-code');
+const extend = require('extend')
+const is = require('is-type-of')
+const _ = require('lodash')
+const retCodeEnum = require('../enum/ret-code')
+const errCodeEnum = require('../enum/error-code')
 
 module.exports = {
 
   /* 定义成功返回的API数据结构 */
   success(data) {
-    this.body = this.toBody(retCodeEnum.success, errCodeEnum.success, 'success', data);
-    return this;
+    this.body = this.toBody(retCodeEnum.success, errCodeEnum.success, 'success', data)
+    return this
   },
 
   /* 定义错误返回的API数据结构 */
   error(params) {
-    let { msg, errcode, retcode, data } = params;
-    const message = msg || 'proxy内部异常';
+    let { msg, errcode, retcode, data } = params
+    const message = msg || 'proxy内部异常'
 
-    errcode = is.undefined(errcode) ? params.errcode : errcode;
-    retcode = is.undefined(retcode) ? params.ret : retcode;
+    errcode = is.undefined(errcode) ? params.errcode : errcode
+    retcode = is.undefined(retcode) ? params.ret : retcode
 
     throw Object.assign(new Error(message), {
       retcode: retcode ? retcode : retCodeEnum.success,
       errcode: errcode ? errcode : errCodeEnum.apiError,
       data: !is.undefined(data) ? data : is.error(arguments[0]) ? arguments[0].data : undefined,
-    });
+    })
   },
 
   /* 校验参数,有错误就抛出异常 */
   validate() {
     if (!this.errors || !this.errors.length) {
-      return this;
+      return this
     }
 
-    const msg = `参数校验失败,details:${JSON.stringify(this.errors)}`;
+    const msg = `参数校验失败,details:${JSON.stringify(this.errors)}`
     this.error({
       msg,
       errcode: errCodeEnum.paramValidateError,
-    });
+    })
   },
 
   /* 构建API返回数据格式 */
@@ -49,37 +49,37 @@ module.exports = {
       errcode: is.int32(errcode) ? errcode : errCodeEnum.success,
       msg: (is.string(msg) || is.number(msg)) ? msg.toString() : 'success',
       data: is.nullOrUndefined(data) ? null : data,
-    };
-    return result;
+    }
+    return result
   },
 
   /* 获取内部REST-API数据 */
   async curlRequest(url, options) {
-    const { app } = this;
-    const req = this.request;
+    const { app } = this
+    const req = this.request
 
-    url = url[0] === '/' ? (app.config.httpProxy.target + url) : url;
-    options = options || {};
+    url = url[0] === '/' ? (app.config.httpProxy.target + url) : url
+    options = options || {}
 
     options = extend(true, {
       method: req.method,
       headers: this.headers,
       dataType: 'json',
       timeout: 1e4,
-    }, options);
+    }, options)
 
     if (!options.data && !_.isEmpty(req.body)) {
-      options.data = req.body;
+      options.data = req.body
     }
 
-    const result = await this.curl(url, options);
-    return result;
+    const result = await this.curl(url, options)
+    return result
   },
 
   /**
    * 获取配置
    */
   get config() {
-    return this.app.config;
+    return this.app.config
   },
-};
+}
