@@ -5,7 +5,6 @@ const k2c = require('koa2-connect')
 const helper = require('../extend/helper')
 
 module.exports = options => {
-  console.log(options.target)
   const proxyHandler = k2c(httpProxy({
     target: options.target,
     changeOrigin: true,
@@ -19,7 +18,7 @@ module.exports = options => {
   }))
 
   return async function _proxyHandler(ctx, next) {
-
+    console.log('target',options.target)
     const isPass = options.ignore.some(re => {
       return !!re.exec(ctx.request.path)
     })
