@@ -12,7 +12,7 @@ module.exports = options => {
     onProxyRes(proxyRes, req/* , res*/) {
       const origin = req.headers.origin
       if (helper.isSafeOrigin(origin)) {
-        proxyRes.headers['access-control-allow-origin'] = origin
+        // proxyRes.headers['access-control-allow-origin'] = origin
       }
     },
   }))
