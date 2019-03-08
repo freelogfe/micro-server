@@ -3,7 +3,7 @@ module.exports = () => {
   const config = {}
 
   config.httpProxy = {
-    target: 'https://api.freelog.com',
+    target: 'http://api.freelog.com',
   }
 
   return config
