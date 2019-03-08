@@ -3,13 +3,6 @@
 const Controller = require('egg').Controller
 
 class PayController extends Controller {
-
-  /**
-   *
-   * @param ctx
-   * @returns {Promise<void>}
-   */
-
   async orders(ctx) {
     const accountId = ctx.checkQuery('accountId').notEmpty().value
     const page = ctx.checkQuery('page').default(1).toInt().value
@@ -32,7 +25,6 @@ class PayController extends Controller {
       ctx.success(data.data)
     }
   }
-
 
   async queryRelativeInfo(list) {
     const accountsMap = {}
