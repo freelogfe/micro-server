@@ -27,8 +27,8 @@ describe('test/app/controller/home.test.js', () => {
       .get('/v1/userinfos/10001')
       .expect(({body}) => {
         // 未找到jwtStr信息
-        assert(body.ret === 2);
-        assert(body.errcode === 28);
+        assert(body.ret === 4);
+        assert(body.errcode === 30);
       });
   });
 
@@ -36,7 +36,7 @@ describe('test/app/controller/home.test.js', () => {
     return app.httpRequest()
       .post('/v1/passport/login')
       .send({
-        loginName: 'test@freelog.com',
+        loginName: 'node@freelog.com',
         password: '123456',
       })
       .expect(200)
@@ -45,7 +45,7 @@ describe('test/app/controller/home.test.js', () => {
         cookies = res.headers['set-cookie'].pop().split(';')[0];
         assert(cookies.includes('authInfo='));
         requestSuccess(res.body);
-        assert.equal(res.body.data.userId, 10001);
+        assert.equal(res.body.data.userId, 50002);
       });
   });
 

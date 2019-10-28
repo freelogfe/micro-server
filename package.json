@@ -28,7 +28,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "node scripts/pre-push.js"
     }
   },
   "engines": {
