@@ -4,25 +4,29 @@ const Controller = require('egg').Controller
 
 class PresentableController extends Controller {
   async queryAuth(ctx) {
-    const nodeId = ctx.checkQuery('nodeId').notEmpty().value
     let pids = ctx.checkQuery('pids').notEmpty().value
 
     ctx.validate()
 
     pids = pids.split(',')
-    const result = {}
+    const result = await this.queryPresentablesAuth(pids)
 
-    const promises = pids.map(async pid => {
-      const lazyFn = ctx.curlRequest(`/v1/auths/presentable/${pid}.info?nodeId=${nodeId}`)
-      return lazyFn.then(res => {
+    ctx.success(result)
+  }
+
+  async queryPresentablesAuth(presentableIds) {
+    const promises = presentableIds.map(async pid => {
+      return this.ctx.curlRequest(`/v1/auths/presentables/${pid}.auth`).then(res => {
         return { pid, res }
       })
     })
+    const result = {}
     const responses = await Promise.all(promises)
-
     responses.forEach(({ pid, res }) => {
-      const data = res.data;
-      [ 'freelog-sub-resource-auth-token', 'freelog-sub-resourceids' ].forEach(key => {
+      const data = res.data
+      const arr = [ 'freelog-resource-type', 'freelog-sub-releases', 'freelog-meta' ]
+
+      arr.forEach(key => {
         data.data[key] = res.headers[key]
       })
 
@@ -30,11 +34,28 @@ class PresentableController extends Controller {
         data.data.errcode = data.errcode
         data.data.errMsg = data.msg
       }
-
       result[pid] = res.data.data
     })
+    return result
+  }
 
-    ctx.success(result)
+  async queryPresentablesAuthList() {
+    const ctx = this.ctx
+    const res = await ctx.curlRequest('/v1/presentables', {
+      data: Object.assign({}, ctx.query),
+    })
+    const data = res.data
+    if (data.errcode || data.ret || !data.data) {
+      ctx.error({ errcode: data.errcode, retcode: data.ret, msg: data.msg, data: data.data })
+    } else {
+      const presentablesList = data.data.dataList
+      const presentablesIDs = presentablesList.map(p => p.presentableId)
+      const presentablesAuthRessult = await this.queryPresentablesAuth(presentablesIDs)
+      presentablesList.forEach(p => {
+        p.authResult = presentablesAuthRessult[p.presentableId]
+      })
+      ctx.success(data.data)
+    }
   }
 }
 

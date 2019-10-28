@@ -73,6 +73,7 @@ module.exports = {
     }
 
     const result = await this.curl(url, options)
+
     return result
   },
 

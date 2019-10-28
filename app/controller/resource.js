@@ -7,6 +7,7 @@ class ResourceController extends Controller {
     const params = Object.assign({ contractType: 3, isDefault: 1 }, ctx.query || {})
 
     const data = await ctx.service.contract.queryList(params)
+
     if (data && data.dataList.length) {
       const nodeIds = new Set()
       const resourceIds = new Set()
@@ -28,6 +29,7 @@ class ResourceController extends Controller {
     }
 
     ctx.success(data)
+
   }
 }
 

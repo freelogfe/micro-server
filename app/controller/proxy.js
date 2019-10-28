@@ -20,7 +20,7 @@ class ProxyController extends Controller {
       ctx.set('access-control-allow-origin', ctx.request.headers.origin)
       ctx.set('access-control-allow-methods', 'GET,POST,OPTIONS,DELETE,PUT')
       ctx.set('access-control-allow-headers', 'Content-Type,method')
-      ctx.set('access-control-expose-headers', 'freelog-meta,freelog-resource-type,freelog-sub-resource-auth-token,freelog-sub-resourceids,freelog-system-meta')
+      ctx.set('access-control-expose-headers', 'freelog-meta,freelog-resource-type,freelog-sub-releases,freelog-system-meta')
       ctx.status = 204
     } else {
       ctx.status = 403
