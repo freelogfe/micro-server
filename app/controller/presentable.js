@@ -5,57 +5,104 @@ const Controller = require('egg').Controller
 class PresentableController extends Controller {
   async queryAuth(ctx) {
     let pids = ctx.checkQuery('pids').notEmpty().value
-
     ctx.validate()
-
     pids = pids.split(',')
-    const result = await this.queryPresentablesAuth(pids)
-
+    const result = await this.ctx.service.presentable.requestPresentablesAuth(pids)
     ctx.success(result)
   }
 
-  async queryPresentablesAuth(presentableIds) {
-    const promises = presentableIds.map(async pid => {
-      return this.ctx.curlRequest(`/v1/auths/presentables/${pid}.auth`).then(res => {
-        return { pid, res }
-      })
-    })
-    const result = {}
-    const responses = await Promise.all(promises)
-    responses.forEach(({ pid, res }) => {
-      const data = res.data
-      const arr = [ 'freelog-resource-type', 'freelog-sub-releases', 'freelog-meta' ]
-
-      arr.forEach(key => {
-        data.data[key] = res.headers[key]
-      })
-
-      if (data.errcode) {
-        data.data.errcode = data.errcode
-        data.data.errMsg = data.msg
+  async pagingGetPresentablesAuthList(ctx) {
+    const params = Object.assign({}, ctx.query)
+    let url
+    if (params.nodeType === 'test') {
+      if (params.page != null) {
+        params.pageIndex = params.page
+        Reflect.deleteProperty(params, 'page')
       }
-      result[pid] = res.data.data
-    })
-    return result
+      url = `/v1/testNodes/${params.nodeId}/testResources`
+    } else {
+      url = '/v1/presentables'
+    }
+    const res = await ctx.curlRequest(url, { data: params })
+    if (res.data.errcode || res.data.ret || !res.data.data) {
+      ctx.error(res.data)
+    } else {
+      const data = await ctx.service.presentable.formatData(res.data.data.dataList)
+      ctx.success(data)
+    }
   }
 
-  async queryPresentablesAuthList() {
-    const ctx = this.ctx
-    const res = await ctx.curlRequest('/v1/presentables', {
-      data: Object.assign({}, ctx.query),
-    })
-    const data = res.data
-    if (data.errcode || data.ret || !data.data) {
-      ctx.error({ errcode: data.errcode, retcode: data.ret, msg: data.msg, data: data.data })
+  async batchGetPresentablesAuthList(ctx) {
+    const { nodeId } = ctx.params
+    const params = Object.assign(ctx.query, { nodeId })
+    ctx.validate()
+    let res = null
+    if (params.nodeType === 'test') {
+      if (params.releaseIds) {
+        params.entityIds = params.releaseIds
+        Reflect.deleteProperty(params, 'releaseIds')
+      }
+      if (params.releaseNames) {
+        params.entityNames = params.releaseNames
+        Reflect.deleteProperty(params, 'releaseNames')
+      }
+      res = await ctx.curlRequest(`/v1/testNodes/${nodeId}/testResources/list`, { data: params })
     } else {
-      const presentablesList = data.data.dataList
-      const presentablesIDs = presentablesList.map(p => p.presentableId)
-      const presentablesAuthRessult = await this.queryPresentablesAuth(presentablesIDs)
-      presentablesList.forEach(p => {
-        p.authResult = presentablesAuthRessult[p.presentableId]
-      })
-      ctx.success(data.data)
+      res = await ctx.curlRequest('/v1/presentables/list', { data: params })
     }
+    if (res.data.errcode || res.data.ret || !res.data.data) {
+      ctx.error(res.data)
+    } else {
+      const data = await ctx.service.presentable.formatData(res.data.data)
+      ctx.success(data)
+    }
+  }
+
+  async getPresentableInfo(ctx) {
+    const { nodeType } = ctx.query
+    const { presentableId } = ctx.params
+    const tmpPath = nodeType === 'test' ? 'testResources' : 'presentables'
+    const res = await this.ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.info`)
+    this.ctx.service.presentable.resolveHeaders(res)
+    ctx.set(res.headers)
+    ctx.success(res.data.data)
+  }
+
+  async getPresentableAuth(ctx) {
+    const { nodeType } = ctx.query
+    const { presentableId } = ctx.params
+    const tmpPath = nodeType === 'test' ? 'testResources' : 'presentables'
+    const res = await this.ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.auth`)
+    this.ctx.service.presentable.resolveHeaders(res)
+    ctx.set(res.headers)
+    ctx.success(res.data.data)
+  }
+
+  async getPresentableData(ctx) {
+    const { nodeType } = ctx.query
+    const { presentableId } = ctx.params
+    let url = `/v1/auths/presentables/${presentableId}.file`
+    if (nodeType === 'test') {
+      url = `/v1/auths/testResources/${presentableId}.file`
+    }
+    await this.curlPresentableData(url)
+  }
+
+  async getPresentableSubDependData(ctx, next) {
+    const { nodeType, version, entityNid } = ctx.query
+    const { presentableId, subDependId } = ctx.params
+    let url = `/v1/auths/presentables/${presentableId}/subRelease/${subDependId}.file?version=${version}`
+    if (nodeType === 'test') {
+      url = `/v1/auths/testResources/${presentableId}/subDepend.file?subEntityId=${subDependId}&entityNid=${entityNid}`
+    }
+    await this.curlPresentableData(url, next)
+  }
+
+  async curlPresentableData(url, next) {
+    const { ctx } = this
+    ctx.request.url = url
+    ctx.request.headers.accept = 'application/json, text/plain, */*'
+    await ctx.service.proxy.handle(ctx, next)
   }
 }
 

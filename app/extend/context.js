@@ -16,7 +16,7 @@ module.exports = {
 
   /* 定义错误返回的API数据结构 */
   error(params) {
-    let { msg, errcode, retcode, data } = params
+    let { msg, errcode, ret: retcode, data } = params
     const message = msg || 'proxy内部异常'
 
     errcode = is.undefined(errcode) ? params.errcode : errcode
@@ -73,7 +73,6 @@ module.exports = {
     }
 
     const result = await this.curl(url, options)
-
     return result
   },
 

@@ -21,9 +21,9 @@ class ContractController extends Controller {
       const [ presentables, nodes ] = await Promise.all([
         ctx.service.list.queryList('/v1/presentables/list', {
           presentableIds: Array.from(presentableIds).join(','),
-          projection: 'presentableId,presentableName,releaseInfo,userId,nodeId'
+          projection: 'presentableId,presentableName,releaseInfo,userId,nodeId',
         }),
-        ctx.service.node.queryList({ nodeIds: Array.from(nodeIds) })
+        ctx.service.node.queryList({ nodeIds: Array.from(nodeIds) }),
       ])
 
       ctx.helper.mergeBy(data.dataList, presentables, 'presentableId', 'presentableInfo')
