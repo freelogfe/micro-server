@@ -5,6 +5,10 @@ class ListService extends Service {
   async queryList(url, params) {
     const { ctx } = this
 
+    params = Object.assign({
+      identityType: 1,
+    }, params)
+
     const result = await ctx.curlRequest(url, {
       data: params,
     })

@@ -4,8 +4,6 @@
 > micro server for freelog ![](https://travis-ci.org/freelogfe/micro-server.svg?branch=master)
 
 
-
-
 ## QuickStart
 
 see [egg docs][egg] for more detail.
@@ -25,8 +23,6 @@ $ open http://localhost:7001/
 $ npm start
 $ npm stop
 ```
-
-
 
 ### npm scripts
 
