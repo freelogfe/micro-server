@@ -6,7 +6,7 @@ class ListService extends Service {
     const { ctx } = this
 
     params = Object.assign({
-      identityType: 1
+      identityType: 1,
     }, params)
 
     const result = await ctx.curlRequest(url, {

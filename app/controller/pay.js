@@ -16,7 +16,7 @@ class PayController extends Controller {
     const data = res.data
 
     if (data.errcode || data.ret || !data.data) {
-      ctx.error({ errcode: data.errcode, retcode: data.ret, msg: data.msg, data: data.data })
+      ctx.error(data)
     } else {
       const relativeInfoMap = await this.queryRelativeInfo(data.data.dataList)
       data.data.dataList.forEach(item => {
