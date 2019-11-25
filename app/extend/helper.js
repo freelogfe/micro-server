@@ -48,6 +48,6 @@ module.exports = {
     })
   },
   isSafeOrigin(origin) {
-    return /^https?:\/\/\w+\.(test)?freelog\.com$/.test(origin)
+    return /^https?:\/\/(t\.)?\w+\.(test)?freelog\.com$/.test(origin)
   },
 }

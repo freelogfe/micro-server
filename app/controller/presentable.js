@@ -27,8 +27,9 @@ class PresentableController extends Controller {
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
     } else {
-      const data = await ctx.service.presentable.formatData(res.data.data.dataList)
-      ctx.success(data)
+      let { page, pageSize, totalItem, dataList } = res.data.data
+      dataList = await ctx.service.presentable.formatData(dataList)
+      ctx.success({ page, pageSize, totalItem, dataList })
     }
   }
 
@@ -53,8 +54,8 @@ class PresentableController extends Controller {
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
     } else {
-      const data = await ctx.service.presentable.formatData(res.data.data)
-      ctx.success(data)
+      const dataList = await ctx.service.presentable.formatData(res.data.data)
+      ctx.success({ dataList })
     }
   }
 
