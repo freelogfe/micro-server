@@ -65,7 +65,11 @@ class PresentableController extends Controller {
     const res = await this.ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.info`)
     this.ctx.service.presentable.resolveHeaders(res)
     ctx.set(res.headers)
-    ctx.success(res.data.data)
+    let presentable = res.data.data
+    if (nodeType === 'test') {
+      presentable = this.ctx.service.presentable.resolveTestNodePresentable(presentable)
+    }
+    ctx.success(presentable)
   }
 
   async getPresentableAuth(ctx) {
@@ -89,9 +93,9 @@ class PresentableController extends Controller {
   }
 
   async getPresentableSubDependData(ctx, next) {
-    const { nodeType, version, entityNid } = ctx.query
+    const { nodeType, entityNid } = ctx.query
     const { presentableId, subDependId } = ctx.params
-    let url = `/v1/auths/presentables/${presentableId}/subRelease/${subDependId}.file?version=${version}`
+    let url = `/v1/auths/presentables/${presentableId}/subDepend.file?&entityNid=${entityNid}&&subReleaseId=${subDependId}`
     if (nodeType === 'test') {
       url = `/v1/auths/testResources/${presentableId}/subDepend.file?subEntityId=${subDependId}&entityNid=${entityNid}`
     }
