@@ -27,8 +27,9 @@ class PresentableController extends Controller {
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
     } else {
-      const data = await ctx.service.presentable.formatData(res.data.data.dataList)
-      ctx.success(data)
+      let { page, pageSize, totalItem, dataList } = res.data.data
+      dataList = await ctx.service.presentable.formatData(dataList)
+      ctx.success({ page, pageSize, totalItem, dataList })
     }
   }
 
@@ -53,8 +54,8 @@ class PresentableController extends Controller {
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
     } else {
-      const data = await ctx.service.presentable.formatData(res.data.data)
-      ctx.success(data)
+      const dataList = await ctx.service.presentable.formatData(res.data.data)
+      ctx.success({ dataList })
     }
   }
 
@@ -65,7 +66,11 @@ class PresentableController extends Controller {
     const res = await this.ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.info`)
     this.ctx.service.presentable.resolveHeaders(res)
     ctx.set(res.headers)
-    ctx.success(res.data.data)
+    let presentable = res.data.data
+    if (nodeType === 'test') {
+      presentable = this.ctx.service.presentable.resolveTestNodePresentable(presentable)
+    }
+    ctx.success(presentable)
   }
 
   async getPresentableAuth(ctx) {
@@ -89,9 +94,9 @@ class PresentableController extends Controller {
   }
 
   async getPresentableSubDependData(ctx, next) {
-    const { nodeType, version, entityNid } = ctx.query
+    const { nodeType, entityNid } = ctx.query
     const { presentableId, subDependId } = ctx.params
-    let url = `/v1/auths/presentables/${presentableId}/subRelease/${subDependId}.file?version=${version}`
+    let url = `/v1/auths/presentables/${presentableId}/subDepend.file?&entityNid=${entityNid}&&subReleaseId=${subDependId}`
     if (nodeType === 'test') {
       url = `/v1/auths/testResources/${presentableId}/subDepend.file?subEntityId=${subDependId}&entityNid=${entityNid}`
     }

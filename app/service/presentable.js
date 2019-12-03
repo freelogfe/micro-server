@@ -26,8 +26,8 @@ class PresentableService extends Service {
 
     arr.forEach(key => {
       if (resp.headers[key] != null) {
-        if (key === 'freelog-sub-dependencies') {
-          data.data['freelog-sub-releases'] = resp.headers[key]
+        if (key === 'freelog-sub-releases') {
+          data.data['freelog-sub-dependencies'] = resp.headers[key]
         } else {
           data.data[key] = resp.headers[key]
         }
@@ -54,7 +54,7 @@ class PresentableService extends Service {
     list.forEach(p => {
       p.authResult = presentablesAuthRessult[p.presentableId]
     })
-    return { dataList: list }
+    return list
   }
 
   resolveTestNodePresentable(presentable) {
