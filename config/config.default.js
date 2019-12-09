@@ -36,6 +36,7 @@ module.exports = appInfo => {
   }
 
   config.cors = {
+    credentials: true,
     origin(ctx) {
       return ctx.request.headers.origin || '*'
     },
