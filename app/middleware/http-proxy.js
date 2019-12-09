@@ -22,7 +22,9 @@ module.exports = options => {
       return !!re.exec(ctx.request.path)
     })
 
-    if (isPass || ctx.method === 'OPTIONS') {
+    const isPublic = /^\/public\//.test(ctx.request.path)
+
+    if (isPass || isPublic || ctx.method === 'OPTIONS') {
       await next()
     } else {
       proxyHandler(ctx, next)

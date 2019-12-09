@@ -42,5 +42,9 @@ module.exports = appInfo => {
     exposeHeaders: 'freelog-meta,freelog-resource-type,freelog-sub-releases,freelog-system-meta,freelog-sub-dependencies,freelog-entity-nid',
   }
 
+  config.assets = {
+    publicPath: '/public/',
+  }
+
   return config
 }
