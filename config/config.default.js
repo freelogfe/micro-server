@@ -35,5 +35,12 @@ module.exports = appInfo => {
     }),
   }
 
+  config.cors = {
+    origin(ctx) {
+      return ctx.request.headers.origin || '*'
+    },
+    exposeHeaders: 'freelog-meta,freelog-resource-type,freelog-sub-releases,freelog-system-meta,freelog-sub-dependencies,freelog-entity-nid',
+  }
+
   return config
 }
