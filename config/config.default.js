@@ -40,7 +40,7 @@ module.exports = appInfo => {
     origin(ctx) {
       return ctx.request.headers.origin || '*'
     },
-    exposeHeaders: 'freelog-meta,freelog-resource-type,freelog-sub-releases,freelog-system-meta,freelog-sub-dependencies,freelog-entity-nid',
+    exposeHeaders: 'freelog-resource-type,freelog-meta,freelog-system-meta,freelog-sub-dependencies,freelog-entity-nid',
   }
 
   config.assets = {
