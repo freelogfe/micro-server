@@ -24,6 +24,7 @@ class PresentableController extends Controller {
       url = '/v1/presentables'
     }
     const res = await ctx.curlRequest(url, { data: params })
+    console.log('url ---', url, res)
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
     } else {
