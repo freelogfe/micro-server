@@ -14,5 +14,4 @@ module.exports = app => {
     router[method](path, objectPath.get(controller, routeMap[key]))
   })
 
-  router.options('*', controller.proxy.preflight)
 }

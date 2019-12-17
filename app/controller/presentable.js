@@ -66,11 +66,26 @@ class PresentableController extends Controller {
     const res = await this.ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.info`)
     this.ctx.service.presentable.resolveHeaders(res)
     ctx.set(res.headers)
-    let presentable = res.data.data
-    if (nodeType === 'test') {
-      presentable = this.ctx.service.presentable.resolveTestNodePresentable(presentable)
+    const result = res.data
+    if (result.errcode === 0) {
+      let presentable = result.data
+      if (nodeType === 'test') {
+        presentable = this.ctx.service.presentable.resolveTestNodePresentable(presentable)
+      }
+      ctx.success(presentable)
+    } else {
+      const authResult = result.data.authResult
+      if (nodeType === 'test') {
+        const { isAuth, data } = authResult
+        result.data.isAuth = isAuth
+        result.data.data = {
+          presentableInfo: data.testResourceInfo,
+        }
+      }
+      Reflect.deleteProperty(result.data, 'errcode')
+      Reflect.deleteProperty(result.data, 'authResult')
+      ctx.success(result.data)
     }
-    ctx.success(presentable)
   }
 
   async getPresentableAuth(ctx) {
