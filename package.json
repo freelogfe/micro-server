@@ -4,7 +4,7 @@
   "description": "micro server for freelog",
   "private": true,
   "dependencies": {
-    "egg": "^2.2.1",
+    "egg": "^2.26.0",
     "egg-cors": "^2.2.3",
     "egg-scripts": "^2.5.0",
     "extend": "^3.0.2",

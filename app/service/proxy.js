@@ -11,13 +11,17 @@ class ProxyService extends Service {
     const { app } = this
     k2c(httpProxy({
       target: app.config.httpProxy.target,
+      secure: false,
       changeOrigin: true,
       onProxyRes(proxyRes, req/* , res*/) {
-        const origin = req.headers.origin
+        const origin = req.headers.origin || '*'
         if (helper.isSafeOrigin(origin)) {
           proxyRes.headers['Access-Control-Allow-Origin'] = origin
           proxyRes.headers['Access-Control-Allow-Credentials'] = true
         }
+      },
+      onError(e) {
+        console.log('Service Proxy Error: ', e)
       },
     }))(ctx, next)
   }

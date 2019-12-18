@@ -8,6 +8,7 @@ module.exports = options => {
   const proxyHandler = k2c(httpProxy({
     target: options.target,
     changeOrigin: true,
+    secure: false,
     pathRewrite: options.pathRewrite || {},
     onProxyRes(proxyRes, req/* , res*/) {
       const origin = req.headers.origin
@@ -15,6 +16,9 @@ module.exports = options => {
         proxyRes.headers['Access-Control-Allow-Origin'] = origin
         proxyRes.headers['Access-Control-Allow-Credentials'] = true
       }
+    },
+    onError(e) {
+      console.log('Middleware Proxy Error: ', e)
     },
   }))
 

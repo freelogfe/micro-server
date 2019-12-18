@@ -111,7 +111,7 @@ class PresentableController extends Controller {
   async getPresentableSubDependData(ctx, next) {
     const { nodeType, entityNid } = ctx.query
     const { presentableId, subDependId } = ctx.params
-    let url = `/v1/auths/presentables/${presentableId}/subDepend.file?&entityNid=${entityNid}&&subReleaseId=${subDependId}`
+    let url = `/v1/auths/presentables/${presentableId}/subDepend.file?entityNid=${entityNid}&subReleaseId=${subDependId}`
     if (nodeType === 'test') {
       url = `/v1/auths/testResources/${presentableId}/subDepend.file?subEntityId=${subDependId}&entityNid=${entityNid}`
     }
