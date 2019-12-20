@@ -24,16 +24,20 @@ class PresentableService extends Service {
     const data = resp.data
     data.data = data.data != null ? data.data : {}
 
+    const customHeaders = {}
     arr.forEach(key => {
-      if (resp.headers[key] != null) {
+      const val = resp.headers[key]
+      if (val != null) {
+        customHeaders[key] = val
         if (key === 'freelog-sub-releases') {
-          data.data['freelog-sub-dependencies'] = resp.headers[key]
+          data.data['freelog-sub-dependencies'] = val
         } else {
-          data.data[key] = resp.headers[key]
+          data.data[key] = val
         }
       }
     })
 
+    this.ctx.set(customHeaders)
     if (data.errcode) {
       data.data.errcode = data.errcode
       data.data.errMsg = data.msg

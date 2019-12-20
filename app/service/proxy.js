@@ -13,7 +13,7 @@ class ProxyService extends Service {
       target: app.config.httpProxy.target,
       secure: false,
       changeOrigin: true,
-      onProxyRes(proxyRes, req/* , res*/) {
+      onProxyRes(proxyRes, req) {
         const origin = req.headers.origin || '*'
         if (helper.isSafeOrigin(origin)) {
           proxyRes.headers['Access-Control-Allow-Origin'] = origin
