@@ -7,7 +7,7 @@ class PresentableController extends Controller {
     let pids = ctx.checkQuery('pids').notEmpty().value
     ctx.validate()
     pids = pids.split(',')
-    const result = await this.ctx.service.presentable.requestPresentablesAuth(pids)
+    const result = await ctx.service.presentable.requestPresentablesAuth(pids)
     ctx.success(result)
   }
 
@@ -64,13 +64,13 @@ class PresentableController extends Controller {
     const { presentableId } = ctx.params
     const tmpPath = nodeType === 'test' ? 'testResources' : 'presentables'
     try {
-      const res = await this.ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.info`)
-      this.ctx.service.presentable.resolveHeaders(res)
+      const res = await ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.info`)
+      ctx.service.presentable.resolveHeaders(res)
       const result = res.data
       if (result.errcode === 0) {
         let presentable = result.data
         if (nodeType === 'test') {
-          presentable = this.ctx.service.presentable.resolveTestNodePresentable(presentable)
+          presentable = ctx.service.presentable.resolveTestNodePresentable(presentable)
         }
         ctx.success(presentable)
       } else {
@@ -96,8 +96,8 @@ class PresentableController extends Controller {
     const { nodeType } = ctx.query
     const { presentableId } = ctx.params
     const tmpPath = nodeType === 'test' ? 'testResources' : 'presentables'
-    const res = await this.ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.auth`)
-    this.ctx.service.presentable.resolveHeaders(res)
+    const res = await ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.auth`)
+    ctx.service.presentable.resolveHeaders(res)
     ctx.success(res.data.data)
   }
 
