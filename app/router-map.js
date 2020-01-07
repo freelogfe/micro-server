@@ -9,6 +9,7 @@ module.exports = {
   'get /v1/presentable/:presentableId/data': 'presentable.getPresentableData',
   'get /v1/presentable/:presentableId/data/subDepend/:subDependId': 'presentable.getPresentableSubDependData',
   'get /v1/getMyResources.json': 'resource.getMyResources',
-  'get /v1/myContracts.json': 'contract.getMyContracts',
+  'get /v1/myContracts/list': 'contract.getMyContracts',
+  'get /v1/myTerminatedContracts/list': 'contract.getMyTerminatedContracts',
   'get /v1/pay/orders.json': 'pay.orders',
 }

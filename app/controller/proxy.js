@@ -4,7 +4,7 @@ const Controller = require('egg').Controller
 
 class ProxyController extends Controller {
 
-  /* 预检请求处理 */
+  /* 预检请求处理 已废用；目前使用egg-cors */
   async preflight(ctx) {
     if (ctx.helper.isSafeOrigin(ctx.request.headers.origin)) {
       ctx.set('access-control-allow-origin', ctx.request.headers.origin)
