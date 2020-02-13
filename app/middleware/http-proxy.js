@@ -23,12 +23,8 @@ module.exports = options => {
   }))
 
   return async function _proxyHandler(ctx, next) {
-    const isPass = options.ignore.some(re => {
-      return !!re.exec(ctx.request.path)
-    })
-
+    const isPass = options.ignore.some(re => !!re.exec(ctx.request.path))
     const isPublic = /^\/public\//.test(ctx.request.path)
-
     if (isPass || isPublic || ctx.method === 'OPTIONS') {
       await next()
     } else {

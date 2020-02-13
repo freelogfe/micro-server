@@ -1,5 +1,6 @@
 'use strict'
 
+// method path controller
 module.exports = {
   'get /v1/presentables/auth.json': 'presentable.queryAuth',
   'get /v1/presentables/authList': 'presentable.pagingGetPresentablesAuthList',
