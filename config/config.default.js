@@ -47,5 +47,23 @@ module.exports = appInfo => {
     publicPath: '/public/',
   }
 
+  config.nodegit = {
+    user: {
+      token: 'dc82d902325baab2eff756689c04af50ea12a0a5',
+      name: 'Wweizhi',
+      email: '790727372@qq.com',
+    },
+    i18nRepositoriesDirPath: 'i18n-repositories/',
+    trackedRepositories: {
+      'freelogfe-web-repos': {
+        reposI18nPath: 'packages/@freelog/freelog-i18n/ui-login/',
+        reposUrl: 'https://github.com/freelogfe/freelogfe-web-repos',
+      },
+    },
+    REMOTE_ORIGIN: 'origin',
+    I18N_BRANCH_NAME: 'i18n-test',
+    REMOTE_BRANCH_NAME: 'i18n-test',
+  }
+
   return config
 }
