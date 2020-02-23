@@ -49,14 +49,14 @@ module.exports = appInfo => {
 
   config.nodegit = {
     user: {
-      token: 'dc82d902325baab2eff756689c04af50ea12a0a5',
+      token: '6b9f88cb4754ff5016f81941f0e76aecba8ffe4b',
       name: 'Wweizhi',
       email: '790727372@qq.com',
     },
     i18nRepositoriesDirPath: 'i18n-repositories/',
     trackedRepositories: {
       'freelogfe-web-repos': {
-        reposI18nPath: 'packages/@freelog/freelog-i18n/ui-login/',
+        reposI18nPath: 'packages/@freelog/freelog-i18n/',
         reposUrl: 'https://github.com/freelogfe/freelogfe-web-repos',
       },
     },
