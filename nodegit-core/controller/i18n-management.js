@@ -2,8 +2,8 @@
 
 const Controller = require('egg').Controller
 // const fse = require('fs-extra')
-const errorCode = require('../enum/error-code')
-const retCode = require('../enum/ret-code')
+const errorCode = require('../../app/enum/error-code')
+const retCode = require('../../app/enum/ret-code')
 
 class I18nManagement extends Controller {
   async getTrackedRepositories(ctx) {

@@ -4,10 +4,10 @@ const nodegit = require('nodegit')
 const path = require('path')
 const fse = require('fs-extra')
 const objectPath = require('object-path')
-const getRepositoryInfo = require('../../nodegit-core/getRepositoryInfo')
-const getChangesByStatus = require('../../nodegit-core/getChangesByStatus')
-const addAndCommit = require('../../nodegit-core/addAndCommit')
-const push = require('../../nodegit-core/push')
+const getRepositoryInfo = require('../getRepositoryInfo')
+const getChangesByStatus = require('../getChangesByStatus')
+const addAndCommit = require('../addAndCommit')
+const push = require('../push')
 
 class I18nManagementService extends Service {
   async index() {
