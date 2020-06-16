@@ -11,7 +11,7 @@ module.exports = (options, app) => {
     secure: false,
     pathRewrite: options.pathRewrite || {},
     onProxyRes(proxyRes, req/* , res*/) {
-      console.log('[In onProxyRes]')
+      console.log('[In onProxyRes]', app.loggers)
       const origin = req.headers.origin
       if (helper.isSafeOrigin(origin)) {
         proxyRes.headers['Access-Control-Allow-Origin'] = origin
@@ -20,7 +20,10 @@ module.exports = (options, app) => {
     },
     onError(err, req, res) {
       console.log('[In onError]')
-      app.logger.error(`Middleware Proxy Error: ${err}`, '==========\n', req.headers, '==========\n', res.headers)
+      app.logger.error(
+        `Middleware Proxy Error: ${err.toString()}`,
+        '\n====================\n', req.headers,
+        '\n====================\n', res)
     },
   }))
 
