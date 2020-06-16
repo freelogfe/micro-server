@@ -9,12 +9,13 @@ module.exports = (options, app) => {
     target: options.target,
     changeOrigin: true,
     secure: false,
+    xfwd: true,
     pathRewrite: options.pathRewrite || {},
-    onProxyReq(proxyReq, req) {
+    onProxyReq(proxyReq, req, res) {
       app.logger.info(
         'Middleware Proxy Info: ',
-        '\n====================\n', proxyReq.headers,
-        '\n====================\n', req.headers)
+        '\n====================\n', req.headers,
+        '\n====================\n', res)
     },
     onProxyRes(proxyRes, req/* , res*/) {
       const origin = req.headers.origin
@@ -23,11 +24,12 @@ module.exports = (options, app) => {
         proxyRes.headers['Access-Control-Allow-Credentials'] = true
       }
     },
-    onError(err, req) {
+    onError(err, req, res) {
       app.logger.error(
         'Middleware Proxy Error: ',
         '\n====================\n', err,
-        '\n====================\n', req.headers)
+        '\n====================\n', req.headers,
+        '\n====================\n', res)
     },
   }))
 
