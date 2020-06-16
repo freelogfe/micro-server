@@ -13,4 +13,5 @@ module.exports = {
   'get /v1/myContracts/list': 'contract.getMyContracts',
   'get /v1/myTerminatedContracts/list': 'contract.getMyTerminatedContracts',
   'get /v1/pay/orders.json': 'pay.orders',
+  'get /v1/microServer/logs/error': 'logs.index',
 }

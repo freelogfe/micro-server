@@ -4,22 +4,22 @@ const httpProxy = require('http-proxy-middleware')
 const k2c = require('koa2-connect')
 const helper = require('../extend/helper')
 
-module.exports = options => {
+module.exports = (options, app) => {
   const proxyHandler = k2c(httpProxy({
     target: options.target,
     changeOrigin: true,
     secure: false,
     pathRewrite: options.pathRewrite || {},
     onProxyRes(proxyRes, req/* , res*/) {
-      console.log(proxyRes.headers)
       const origin = req.headers.origin
+      app.logger.error(proxyRes.headers)
       if (helper.isSafeOrigin(origin)) {
         proxyRes.headers['Access-Control-Allow-Origin'] = origin
         proxyRes.headers['Access-Control-Allow-Credentials'] = true
       }
     },
     onError(err, req, res) {
-      console.log('Middleware Proxy Error: ', err, req, res)
+      app.logger.error(`Middleware Proxy Error: ${err.toString()}`, req, res)
     },
   }))
 
