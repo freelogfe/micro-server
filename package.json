@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "micro server for freelog",
   "private": true,
+  "egg": {
+    "declarations": true
+  },
   "dependencies": {
     "egg": "^2.26.0",
     "egg-cors": "^2.2.3",

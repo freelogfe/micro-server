@@ -13,8 +13,4 @@ module.exports = {
   'get /v1/myContracts/list': 'contract.getMyContracts',
   'get /v1/myTerminatedContracts/list': 'contract.getMyTerminatedContracts',
   'get /v1/pay/orders.json': 'pay.orders',
-  // 'get /v1/i18n/trackedRepositories/list': 'i18nManagement.getTrackedRepositories',
-  // 'get /v1/i18n/trackedRepository/data': 'i18nManagement.getRepositoryI18nData',
-  // 'put /v1/i18n/trackedRepository/data': 'i18nManagement.updateRepositoryI18nData',
-  // 'post /v1/i18n/trackedRepository/changes/push': 'i18nManagement.commitAndPushChanges',
 }

@@ -11,14 +11,15 @@ module.exports = options => {
     secure: false,
     pathRewrite: options.pathRewrite || {},
     onProxyRes(proxyRes, req/* , res*/) {
+      console.log(proxyRes.headers)
       const origin = req.headers.origin
       if (helper.isSafeOrigin(origin)) {
         proxyRes.headers['Access-Control-Allow-Origin'] = origin
         proxyRes.headers['Access-Control-Allow-Credentials'] = true
       }
     },
-    onError(e) {
-      console.log('Middleware Proxy Error: ', e)
+    onError(err, req, res) {
+      console.log('Middleware Proxy Error: ', err, req, res)
     },
   }))
 
