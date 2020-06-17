@@ -11,6 +11,14 @@ module.exports = (options, app) => {
     secure: false,
     xfwd: true,
     // pathRewrite: options.pathRewrite || {},
+    onProxyReq(proxyReq, req) {
+      app.logger.error(
+        'Middleware ProxyReq Info: ',
+        '\n====================\n', req.url,
+        '\n====================\n', req.headers)
+      console.log(req.url, req.headers)
+      proxyReq.setHeader('connection', 'keep-alive')
+    },
     onProxyRes(proxyRes, req) {
       const origin = req.headers.origin
       if (helper.isSafeOrigin(origin)) {
@@ -19,7 +27,6 @@ module.exports = (options, app) => {
       }
     },
     onError(err, req, res) {
-      console.log('Middleware Proxy Error: ', err)
       res.writeHead(500, {
         'Content-Type': 'text/plain',
       })
@@ -28,13 +35,6 @@ module.exports = (options, app) => {
         'Middleware Proxy Error: ',
         '\n====================\n', err,
         '\n====================\n', req.headers)
-    },
-    onClose(res, socket, head) {
-      app.logger.error(
-        'Middleware Proxy Error: ', res,
-        '\n====================\n', head)
-      // view disconnected websocket connections
-      console.log('Client disconnected')
     },
   }))
 
