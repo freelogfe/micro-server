@@ -22,7 +22,8 @@ class LogsController extends Controller {
 
   async userNodeDataApiDebug(ctx) {
     const response1 = await ctx.curl(this.app.config.httpProxy.target + '/v1/storages/buckets/.UserNodeData/objects/80000070/customPick?fields=name,version')
-    ctx.body = response1
+    const { data, headers, requestUrls, remoteAddress } = response1
+    ctx.body = { data: data.toString(), headers, requestUrls, remoteAddress }
   }
 }
 
