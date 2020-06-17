@@ -10,8 +10,8 @@ module.exports = (options, app) => {
     changeOrigin: true,
     secure: false,
     xfwd: true,
-    pathRewrite: options.pathRewrite || {},
-    onProxyRes(proxyRes, req/* , res*/) {
+    // pathRewrite: options.pathRewrite || {},
+    onProxyRes(proxyRes, req) {
       const origin = req.headers.origin
       if (helper.isSafeOrigin(origin)) {
         proxyRes.headers['Access-Control-Allow-Origin'] = origin
@@ -19,11 +19,15 @@ module.exports = (options, app) => {
       }
     },
     onError(err, req, res) {
+      console.log('Middleware Proxy Error: ', err)
+      res.writeHead(500, {
+        'Content-Type': 'text/plain',
+      })
+      res.end(`Middleware Proxy Error: ${err.toString()}`)
       app.logger.error(
         'Middleware Proxy Error: ',
         '\n====================\n', err,
-        '\n====================\n', req.headers,
-        '\n====================\n', res)
+        '\n====================\n', req.headers)
     },
   }))
 
