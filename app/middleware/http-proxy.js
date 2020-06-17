@@ -11,12 +11,6 @@ module.exports = (options, app) => {
     secure: false,
     xfwd: true,
     // pathRewrite: options.pathRewrite || {},
-    onProxyReq(proxyReq, req) {
-      app.logger.error(
-        'Middleware ProxyReq Info: ',
-        '\n====================\n', req.url,
-        '\n====================\n', req.headers)
-    },
     onProxyRes(proxyRes, req) {
       const origin = req.headers.origin
       if (helper.isSafeOrigin(origin)) {

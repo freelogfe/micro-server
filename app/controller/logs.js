@@ -19,12 +19,6 @@ class LogsController extends Controller {
     const coreLogsString = fse.readFileSync(this.app.loggers.coreLogger.options.file)
     ctx.body = coreLogsString
   }
-
-  async userNodeDataApiDebug(ctx) {
-    const response1 = await ctx.curl(this.app.config.httpProxy.target + '/v1/storages/buckets/.UserNodeData/objects/80000070/customPick1?fields=name,version')
-    response1.data = response1.data.toString()
-    ctx.body = response1
-  }
 }
 
 module.exports = LogsController
