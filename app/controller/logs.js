@@ -22,9 +22,9 @@ class LogsController extends Controller {
 
   async userNodeDataApiDebug(ctx) {
     const response1 = await ctx.curl(this.app.config.httpProxy.target + '/v1/storages/buckets/.UserNodeData/objects/80000070/customPick?fields=name,version')
-    const response2 = await ctx.curl('htpp://api.testfreelog.com/v1/storages/buckets/.UserNodeData/objects/80000070/customPick?fields=name,version')
+    const response2 = await ctx.curl('api.testfreelog.com/v1/storages/buckets/.UserNodeData/objects/80000070/customPick?fields=name,version')
     // const headers = response
-    ctx.body = JSON.stringify(response1) + '\n============================\n' + JSON.stringify(response2)
+    ctx.body = JSON.stringify(response1.headers) + '\n============================\n' + JSON.stringify(response2.headers)
   }
 }
 
