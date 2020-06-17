@@ -16,8 +16,6 @@ module.exports = (options, app) => {
         'Middleware ProxyReq Info: ',
         '\n====================\n', req.url,
         '\n====================\n', req.headers)
-      console.log(req.url, req.headers)
-      proxyReq.setHeader('connection', 'keep-alive')
     },
     onProxyRes(proxyRes, req) {
       const origin = req.headers.origin
