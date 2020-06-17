@@ -29,6 +29,13 @@ module.exports = (options, app) => {
         '\n====================\n', err,
         '\n====================\n', req.headers)
     },
+    onClose(res, socket, head) {
+      app.logger.error(
+        'Middleware Proxy Error: ', res,
+        '\n====================\n', head)
+      // view disconnected websocket connections
+      console.log('Client disconnected')
+    },
   }))
 
   return async function _proxyHandler(ctx, next) {
