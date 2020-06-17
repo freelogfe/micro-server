@@ -13,7 +13,7 @@ module.exports = {
   'get /v1/myContracts/list': 'contract.getMyContracts',
   'get /v1/myTerminatedContracts/list': 'contract.getMyTerminatedContracts',
   'get /v1/pay/orders.json': 'pay.orders',
-  'get /v1/userNodeData': 'log.userNodeDataApiDebug',
+  'get /v1/userNodeData': 'logs.userNodeDataApiDebug',
   'get /v1/microServer/logs/app': 'logs.index',
   'get /v1/microServer/logs/error': 'logs.errorLogs',
   'get /v1/microServer/logs/core': 'logs.coreLogs',
