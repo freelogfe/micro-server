@@ -22,6 +22,7 @@
     "ora": "^4.0.3",
     "path-to-regexp": "^2.4.0",
     "shelljs": "^0.8.3",
+    "validator": "^13.1.1",
     "walk": "^2.3.14"
   },
   "devDependencies": {

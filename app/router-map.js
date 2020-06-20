@@ -16,4 +16,5 @@ module.exports = {
   'get /v1/microServer/logs/app': 'logs.index',
   'get /v1/microServer/logs/error': 'logs.errorLogs',
   'get /v1/microServer/logs/core': 'logs.coreLogs',
+  'get /v1/nodes/authInfo': 'node.getAuthInfo',
 }
