@@ -8,4 +8,9 @@ exports.cors = {
   package: 'egg-cors',
 }
 
+exports.eggFreelogBase = {
+  enable: true,
+  package: 'egg-freelog-base',
+}
+
 exports.static = true

@@ -48,14 +48,8 @@ class NodeController extends Controller {
     const ctx = this.ctx
     const isTest = /^t\./.test(domainName)
     const subNodeDomain = this.getSubNodeDomain(domainName)
-    const result = (await ctx.curl(`${this.app.config.httpProxy.target}/v1/nodes/detail?nodeDomain=${subNodeDomain}`, {
-      headers: {
-        cookie: ctx.headers.cookie,
-      },
-      dataType: 'json',
-    })).data
-    if (result.errcode === 0) {
-      const nodeInfo = result.data
+    const nodeInfo = await ctx.curlIntranetApi(`${ctx.webApi.nodeInfo}/detail?nodeDomain=${subNodeDomain}`)
+    if (nodeInfo && nodeInfo.nodeId) {
       if (isTest) {
         nodeInfo.isTestNode = true
         const testNodeResult = (await ctx.curl(`${this.app.config.httpProxy.target}/v1/testNodes/${nodeInfo.nodeId}`, {

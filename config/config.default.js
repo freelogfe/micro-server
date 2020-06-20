@@ -1,4 +1,6 @@
 'use strict'
+const fs = require('fs-extra')
+const path = require('path')
 const pathToRegexp = require('path-to-regexp')
 const routeMap = require('../app/router-map')
 
@@ -33,6 +35,18 @@ module.exports = appInfo => {
     ignore: Object.keys(routeMap).map(key => {
       return pathToRegexp(key.split(' ')[1])
     }),
+  }
+
+  config.jwtAuth = {
+    cookieName: 'authInfo',
+    privateKey: fs.readFileSync(path.join(appInfo.baseDir, './auth_key/private_key.pem')).toString(),
+    publicKey: fs.readFileSync(path.join(appInfo.baseDir, './auth_key/public_key.pem')).toString(),
+  }
+
+  config.clientCredentialInfo = {
+    clientId: 1004,
+    publicKey: 'c8724fd977542b155abac77664093770',
+    privateKey: 'e8739ff716660a4c942724d306216612',
   }
 
   config.cors = {
