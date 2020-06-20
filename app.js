@@ -2,7 +2,7 @@
 
 const koaValidate = require('koa-validate')
 
-module.exports = app => {
+module.exports = async app => {
   koaValidate(app)
   app.config.coreMiddleware.unshift('httpProxy')
 }

@@ -43,7 +43,8 @@ class ContractController extends Controller {
       let releasesPromise = Promise.resolve([])
       let presentablesPromise = Promise.resolve([])
       let nodesPromise = Promise.resolve([])
-      if (nodeIds.size > 0) {
+      let usersPromise = Promise.resolve([])
+      if (releaseIds.size > 0) {
         releasesPromise = ctx.service.release.queryList({
           releaseIds: Array.from(releaseIds),
           projection: 'releaseId,releaseName,previewImages,resourceType,userId,nodeId,username',
@@ -56,21 +57,33 @@ class ContractController extends Controller {
         })
       }
       if (nodeIds.size > 0) {
-        nodesPromise = ctx.service.node.queryList({ nodeIds: Array.from(nodeIds) })
+        nodesPromise = ctx.service.node.queryList({ nodeIds: Array.from(nodeIds).join(',') })
+      }
+      if (userIds.size > 0) {
+        usersPromise = ctx.service.list.queryList('/v1/userinfos', {
+          userIds: Array.from(userIds).join(','),
+        })
       }
 
-      const [ releases, presentables, nodes ] = await Promise.all([
+      const [ releases, presentables, nodes, users ] = await Promise.all([
         releasesPromise,
         presentablesPromise,
         nodesPromise,
+        usersPromise,
       ])
       ctx.helper.mergeBy(data.dataList, presentables, { src: 'presentableId', target: 'targetId' }, 'presentableInfo')
       ctx.helper.mergeBy(data.dataList, releases, { src: 'releaseId', target: 'partyOne' }, 'releaseInfoOne')
       ctx.helper.mergeBy(data.dataList, releases, { src: 'releaseId', target: 'partyTwo' }, 'releaseInfoTwo')
       ctx.helper.mergeBy(data.dataList, nodes, { src: 'nodeId', target: 'nodeId' }, 'nodeInfo')
+      ctx.helper.mergeBy(data.dataList, users, { src: 'userId', target: 'partyTwoUserId' }, 'userInfo')
     }
     ctx.success(data)
+  }
 
+  async getMyTerminatedContracts(ctx) {
+    const params = Object.assign({}, ctx.query || {})
+    const data = await ctx.service.list.queryList('/v1/contracts/terminatedContracts', params)
+    ctx.success(data)
   }
 }
 

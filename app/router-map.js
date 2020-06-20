@@ -1,5 +1,6 @@
 'use strict'
 
+// method path controller
 module.exports = {
   'get /v1/presentables/auth.json': 'presentable.queryAuth',
   'get /v1/presentables/authList': 'presentable.pagingGetPresentablesAuthList',
@@ -9,6 +10,11 @@ module.exports = {
   'get /v1/presentable/:presentableId/data': 'presentable.getPresentableData',
   'get /v1/presentable/:presentableId/data/subDepend/:subDependId': 'presentable.getPresentableSubDependData',
   'get /v1/getMyResources.json': 'resource.getMyResources',
-  'get /v1/myContracts.json': 'contract.getMyContracts',
+  'get /v1/myContracts/list': 'contract.getMyContracts',
+  'get /v1/myTerminatedContracts/list': 'contract.getMyTerminatedContracts',
   'get /v1/pay/orders.json': 'pay.orders',
+  'get /v1/microServer/logs/app': 'logs.index',
+  'get /v1/microServer/logs/error': 'logs.errorLogs',
+  'get /v1/microServer/logs/core': 'logs.coreLogs',
+  'get /v1/nodes/authInfo': 'node.getAuthInfo',
 }
