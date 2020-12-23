@@ -8,7 +8,6 @@ class UserService extends Service {
     if (Array.isArray(params.userIds)) {
       params.userIds = params.userIds.join(',')
     }
-
     return ctx.service.list.queryList('/v1/userinfos', params)
   }
 }

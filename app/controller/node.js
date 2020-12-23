@@ -18,7 +18,7 @@ class NodeController extends Controller {
     if (nodeInfo == null) return null
     const { userId: __auth_user_id__ } = ctx.request
     const { nodeId: __auth_node_id__, nodeName: __auth_node_name__, pageBuildId: __page_build_id, isTestNode } = nodeInfo
-    const pbAuthUrl = `${this.app.config.httpProxy.target}/v1/auths/${isTestNode ? 'testResources' : 'presentables'}/${__page_build_id}`
+    const pbAuthUrl = `${this.app.config.httpProxy.target}/v2/auths/${isTestNode ? 'testResources' : 'presentables'}/${__page_build_id}`
 
     const rResponse = await ctx.curl(pbAuthUrl, {
       headers: {
@@ -52,7 +52,7 @@ class NodeController extends Controller {
     if (nodeInfo && nodeInfo.nodeId) {
       if (isTest) {
         nodeInfo.isTestNode = true
-        const testNodeResult = (await ctx.curl(`${this.app.config.httpProxy.target}/v1/testNodes/${nodeInfo.nodeId}`, {
+        const testNodeResult = (await ctx.curl(`${this.app.config.httpProxy.target}/v2/testNodes/${nodeInfo.nodeId}`, {
           headers: {
             cookie: ctx.headers.cookie,
           },

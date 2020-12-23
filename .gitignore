@@ -11,4 +11,5 @@ run/
 .DS_Store
 *.sw*
 *.un~
-
+.history/
+.github/

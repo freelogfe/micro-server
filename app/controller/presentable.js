@@ -19,9 +19,9 @@ class PresentableController extends Controller {
         params.pageIndex = params.page
         Reflect.deleteProperty(params, 'page')
       }
-      url = `/v1/testNodes/${params.nodeId}/testResources`
+      url = `/v2/testNodes/${params.nodeId}/testResources`
     } else {
-      url = '/v1/presentables'
+      url = '/v2/presentables'
     }
     const res = await ctx.curlRequest(url, { data: params })
     if (res.data.errcode || res.data.ret || !res.data.data) {
@@ -47,9 +47,9 @@ class PresentableController extends Controller {
         params.entityNames = params.releaseNames
         Reflect.deleteProperty(params, 'releaseNames')
       }
-      res = await ctx.curlRequest(`/v1/testNodes/${nodeId}/testResources/list`, { data: params })
+      res = await ctx.curlRequest(`/v2/testNodes/${nodeId}/testResources/list`, { data: params })
     } else {
-      res = await ctx.curlRequest('/v1/presentables/list', { data: params })
+      res = await ctx.curlRequest('/v2/presentables/list', { data: params })
     }
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
@@ -64,7 +64,7 @@ class PresentableController extends Controller {
     const { presentableId } = ctx.params
     const tmpPath = nodeType === 'test' ? 'testResources' : 'presentables'
     try {
-      const res = await ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.info`)
+      const res = await ctx.curlRequest(`/v2/auths/${tmpPath}/${presentableId}/info`)
       ctx.service.presentable.resolveHeaders(res)
       const result = res.data
       if (result.errcode === 0) {
@@ -96,7 +96,7 @@ class PresentableController extends Controller {
     const { nodeType } = ctx.query
     const { presentableId } = ctx.params
     const tmpPath = nodeType === 'test' ? 'testResources' : 'presentables'
-    const res = await ctx.curlRequest(`/v1/auths/${tmpPath}/${presentableId}.auth`)
+    const res = await ctx.curlRequest(`/v2/auths/${tmpPath}/${presentableId}/result`)
     ctx.service.presentable.resolveHeaders(res)
     ctx.success(res.data.data)
   }
@@ -104,19 +104,19 @@ class PresentableController extends Controller {
   async getPresentableData(ctx) {
     const { nodeType } = ctx.query
     const { presentableId } = ctx.params
-    let url = `/v1/auths/presentables/${presentableId}.file`
+    let url = `/v2/auths/presentables/${presentableId}/fileStream`
     if (nodeType === 'test') {
-      url = `/v1/auths/testResources/${presentableId}.file`
+      url = `/v2/auths/testResources/${presentableId}/fileStream`
     }
     await this.curlPresentableData(url)
   }
 
   async getPresentableSubDependData(ctx, next) {
     const { nodeType, entityNid } = ctx.query
-    const { presentableId, subDependId } = ctx.params
-    let url = `/v1/auths/presentables/${presentableId}/subDepend.file?entityNid=${entityNid}&subReleaseId=${subDependId}`
+    const { presentableId, subDependId } = ctx.params    // entityNid --- parentNid  subDependId --- subResourceIdOrName
+    let url = `/v2/auths/presentables/${presentableId}/file?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`
     if (nodeType === 'test') {
-      url = `/v1/auths/testResources/${presentableId}/subDepend.file?subEntityId=${subDependId}&entityNid=${entityNid}`
+      url = `/v2/auths/testResources/${presentableId}/file?parentNid=${subDependId}&subResourceIdOrName=${entityNid}`
     }
     await this.curlPresentableData(url, next)
   }

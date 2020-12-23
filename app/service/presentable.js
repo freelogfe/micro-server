@@ -6,7 +6,7 @@ class PresentableService extends Service {
   async requestPresentablesAuth(presentableIds) {
     const tmpPath = this.ctx.query.nodeType === 'test' ? 'testResources' : 'presentables'
     const promises = presentableIds.map(async pid => {
-      return this.ctx.curlRequest(`/v1/auths/${tmpPath}/${pid}.auth`).then(resp => {
+      return this.ctx.curlRequest(`/v2/auths/${tmpPath}/${pid}/result`).then(resp => {
         return { pid, resp }
       })
     })

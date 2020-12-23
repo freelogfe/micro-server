@@ -9,7 +9,7 @@ class NodeService extends Service {
     if (Array.isArray(params.nodeIds)) {
       params.nodeIds = params.nodeIds.join(',')
     }
-    return ctx.service.list.queryList('/v1/nodes/list', params)
+    return ctx.service.list.queryList('/v2/nodes/list', params)
   }
 }
 

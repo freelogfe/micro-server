@@ -8,7 +8,7 @@ class ReleaseService extends Service {
     if (Array.isArray(params.releaseIds)) {
       params.releaseIds = params.releaseIds.join(',')
     }
-    return ctx.service.list.queryList('/v1/releases/list', params)
+    return ctx.service.list.queryList('/v2/resources/list', params)
   }
 }
 

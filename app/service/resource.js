@@ -8,7 +8,7 @@ class ResourceService extends Service {
     if (Array.isArray(params.resourceIds)) {
       params.resourceIds = params.resourceIds.join(',')
     }
-    return ctx.service.list.queryList('/v1/resources/list', params)
+    return ctx.service.list.queryList('/v2/resources/list', params)
   }
 }
 

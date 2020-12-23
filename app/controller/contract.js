@@ -51,7 +51,7 @@ class ContractController extends Controller {
         })
       }
       if (presentableIds.size > 0) {
-        presentablesPromise = ctx.service.list.queryList('/v1/presentables/list', {
+        presentablesPromise = ctx.service.list.queryList('/v2/presentables/list', {
           presentableIds: Array.from(presentableIds).join(','),
           projection: 'presentableId,presentableName,releaseInfo,userId,nodeId',
         })
