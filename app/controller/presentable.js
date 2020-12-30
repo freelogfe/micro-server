@@ -23,7 +23,6 @@ class PresentableController extends Controller {
     } else {
       url = '/v2/presentables'
     }
-    console.log(url, params)
     const res = await ctx.curlRequest(url, { data: params })
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
@@ -35,7 +34,6 @@ class PresentableController extends Controller {
   }
 
   async batchGetPresentablesAuthList(ctx) {
-    console.log('batchGetPresentablesAuthList')
     const { nodeId } = ctx.params
     const params = Object.assign(ctx.query, { nodeId })
     ctx.validate()
@@ -104,7 +102,6 @@ class PresentableController extends Controller {
   }
 
   async getPresentableData(ctx) {
-    console.log('getPresentableData')
     const { nodeType } = ctx.query
     const { presentableId } = ctx.params
     let url = `/v2/auths/presentables/${presentableId}/fileStream`
