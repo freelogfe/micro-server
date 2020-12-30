@@ -59,17 +59,21 @@ module.exports = {
 
     options = extend(true, {
       method: req.method,
-      headers: this.headers,
+      headers: {...this.headers, host: 'http://api.testfreelog.com'},
       dataType: 'json',
       timeout: 1e4,
     }, options)
-
+    console.log(options)
     if (!options.data && !_.isEmpty(req.body)) {
       options.data = req.body
     }
-
-    const result = await this.curl(url, options)
-    return result
+    try {
+      const result = await this.curl(url, options) 
+      return result
+    } catch(err) {
+      console.log(err)
+      return err
+    }
   },
 
   /**

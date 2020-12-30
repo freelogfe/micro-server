@@ -23,6 +23,7 @@ class PresentableController extends Controller {
     } else {
       url = '/v2/presentables'
     }
+    console.log(url, params)
     const res = await ctx.curlRequest(url, { data: params })
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
@@ -34,6 +35,7 @@ class PresentableController extends Controller {
   }
 
   async batchGetPresentablesAuthList(ctx) {
+    console.log('batchGetPresentablesAuthList')
     const { nodeId } = ctx.params
     const params = Object.assign(ctx.query, { nodeId })
     ctx.validate()
@@ -102,6 +104,7 @@ class PresentableController extends Controller {
   }
 
   async getPresentableData(ctx) {
+    console.log('getPresentableData')
     const { nodeType } = ctx.query
     const { presentableId } = ctx.params
     let url = `/v2/auths/presentables/${presentableId}/fileStream`
@@ -114,9 +117,19 @@ class PresentableController extends Controller {
   async getPresentableSubDependData(ctx, next) {
     const { nodeType, entityNid } = ctx.query
     const { presentableId, subDependId } = ctx.params    // entityNid --- parentNid  subDependId --- subResourceIdOrName
-    let url = `/v2/auths/presentables/${presentableId}/file?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`
+    let url = `/v2/auths/presentables/${presentableId}/fileStream?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`
     if (nodeType === 'test') {
-      url = `/v2/auths/testResources/${presentableId}/file?parentNid=${subDependId}&subResourceIdOrName=${entityNid}`
+      url = `/v2/auths/testResources/${presentableId}/fileStream?parentNid=${subDependId}&subResourceIdOrName=${entityNid}`
+    }
+    await this.curlPresentableData(url, next)
+  }
+  
+  async getPresentableSubDependInfo(ctx, next) {
+    const { nodeType, entityNid } = ctx.query
+    const { presentableId, subDependId } = ctx.params    // entityNid --- parentNid  subDependId --- subResourceIdOrName
+    let url = `/v2/auths/presentables/${presentableId}/info?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`
+    if (nodeType === 'test') {
+      url = `/v2/auths/testResources/${presentableId}/info?parentNid=${subDependId}&subResourceIdOrName=${entityNid}`
     }
     await this.curlPresentableData(url, next)
   }
