@@ -5,6 +5,7 @@ const is = require('is-type-of')
 const _ = require('lodash')
 const retCodeEnum = require('../enum/ret-code')
 const errCodeEnum = require('../enum/error-code')
+const { join } = require('lodash')
 
 module.exports = {
 
@@ -59,11 +60,10 @@ module.exports = {
 
     options = extend(true, {
       method: req.method,
-      headers: {...this.headers, host: 'http://api.testfreelog.com'},
+      headers: {...this.headers, host: 'api.testfreelog.com'},
       dataType: 'json',
       timeout: 1e4,
     }, options)
-    console.log(options)
     if (!options.data && !_.isEmpty(req.body)) {
       options.data = req.body
     }

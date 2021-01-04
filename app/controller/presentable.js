@@ -21,8 +21,9 @@ class PresentableController extends Controller {
       }
       url = `/v2/testNodes/${params.nodeId}/testResources`
     } else {
-      url = '/v2/presentables'
+      url = `/v2/presentables`
     }
+    // console.log('pagingGetPresentablesAuthList', url, params)
     const res = await ctx.curlRequest(url, { data: params })
     if (res.data.errcode || res.data.ret || !res.data.data) {
       ctx.error(res.data)
@@ -120,7 +121,7 @@ class PresentableController extends Controller {
     }
     await this.curlPresentableData(url, next)
   }
-  
+                                                                                                                                                                                  
   async getPresentableSubDependInfo(ctx, next) {
     const { nodeType, entityNid } = ctx.query
     const { presentableId, subDependId } = ctx.params    // entityNid --- parentNid  subDependId --- subResourceIdOrName
