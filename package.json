@@ -9,7 +9,7 @@
   "dependencies": {
     "egg": "^2.26.0",
     "egg-cors": "^2.2.3",
-    "egg-freelog-base": "^3.0.37",
+    "egg-freelog-base": "^3.1.0",
     "egg-scripts": "^2.5.0",
     "extend": "^3.0.2",
     "fs-extra": "^8.1.0",
