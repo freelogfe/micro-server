@@ -18,7 +18,14 @@ class ProxyService extends Service {
         if (helper.isSafeOrigin(origin)) {
           proxyRes.headers['Access-Control-Allow-Origin'] = origin
           proxyRes.headers['Access-Control-Allow-Credentials'] = true
+        } 
+        let headers = []
+        for(const [key,value] of Object.entries(proxyRes.headers)){
+          headers.push(key)
         }
+        let he = headers.join(',')
+        proxyRes.headers['Access-Control-Allow-Headers'] = he
+        proxyRes.headers['Access-Control-Expose-Headers'] = he
       },
       onError(e) {
         console.log('Service Proxy Error: ', e)
