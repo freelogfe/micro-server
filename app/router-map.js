@@ -18,4 +18,6 @@ module.exports = {
   'get /v1/microServer/logs/error': 'logs.errorLogs',
   'get /v1/microServer/logs/core': 'logs.coreLogs',
   'get /v1/nodes/authInfo': 'node.getAuthInfo',
+  'get /widgets/:subDependId': 'widget.home',
+  'get /widgets/:subDependId/static/:l/:b': 'widget.staticFile',
 }

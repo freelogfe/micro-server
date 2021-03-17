@@ -8,10 +8,10 @@ const routeMap = require('./router-map')
 
 module.exports = app => {
   const { router, controller } = app
-
   Object.keys(routeMap).forEach(key => {
     const [ method, path ] = key.split(' ')
     router[method](path, objectPath.get(controller, routeMap[key]))
   })
+  console.log(router)
 
 }

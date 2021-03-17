@@ -9,6 +9,7 @@ import ExportPay = require('../../../app/controller/pay');
 import ExportPresentable = require('../../../app/controller/presentable');
 import ExportProxy = require('../../../app/controller/proxy');
 import ExportResource = require('../../../app/controller/resource');
+import ExportWidget = require('../../../app/controller/widget');
 
 declare module 'egg' {
   interface IController {
@@ -19,5 +20,6 @@ declare module 'egg' {
     presentable: ExportPresentable;
     proxy: ExportProxy;
     resource: ExportResource;
+    widget: ExportWidget;
   }
 }

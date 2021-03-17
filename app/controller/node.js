@@ -7,6 +7,7 @@ const validator = require('validator')
 class NodeController extends Controller {
 
   async getAuthInfo(ctx) {
+    this.ctx.logger.error(ctx.app.baseDir)
     const { domainName } = ctx.query
     const authInfo = await this.getNodeAuthInfo(domainName)
     ctx.success(authInfo)
