@@ -14,9 +14,9 @@ class WidgetController extends Controller {
 
   async home(ctx) {
     const { subDependId } = ctx.params;
-
+    const { reset } = ctx.query 
     const savePath = path.join(ctx.app.baseDir, `/widgets/${subDependId}`);
-    if(fs.existsSync(savePath)){
+    if(fs.existsSync(savePath) && !reset){
         let data
         try {
         data = fse.readFileSync(path.join(ctx.app.baseDir, `/widgets/${subDependId}/dist/index.html`)).toString();
