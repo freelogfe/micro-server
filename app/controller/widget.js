@@ -20,7 +20,6 @@ class WidgetController extends Controller {
         let data
         try {
         data = fse.readFileSync(path.join(ctx.app.baseDir, `/widgets/${subDependId}/dist/index.html`)).toString();
-        // console.log(213423234, data)
         // 等待操作结果返回，然后打印结果
         } catch (e) {
         console.log('读取文件发生错误');
@@ -58,9 +57,7 @@ class WidgetController extends Controller {
 
   async staticFile(ctx) {
     const { subDependId } = ctx.params;
-    console.log(ctx.url)
     const route = ctx.url.split('?')[0].split('static')[1]
-    console.log(route)
     let data, type    // 6049d014328c0400397791e7
     try {
       let pa = path.join(ctx.app.baseDir,  `/widgets/${subDependId}/dist/static/${route}`) // `/widgets/${subDependId}/dist/${route}`)
