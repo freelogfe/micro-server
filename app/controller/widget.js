@@ -14,6 +14,7 @@ class WidgetController extends Controller {
   async home(ctx) {
     const { subDependId } = ctx.params;
     const { reset } = ctx.query;
+    console.log(reset)
     const savePath = path.join(ctx.app.baseDir, `/widgets/${subDependId}`);
     if (fs.existsSync(savePath) && !reset) {
       let data;
@@ -112,12 +113,12 @@ function saveZipFiles(savePath, files) {
             });
           }
         } else {
-          if (filename.indexOf("index.html") > -1) {
-            console.log(
-              files[filename],
-              files[filename]._data.compressedContent
-            );
-          }
+          // if (filename.indexOf("index.html") > -1) {
+          //   console.log(
+          //     files[filename],
+          //     files[filename]._data.compressedContent
+          //   );
+          // }
           // 把每个文件buffer写到硬盘中
           //   files[filename]._data && console.log(filename, files[filename]._data.compressedContent, savePath, dest)
           //   files[filename]._data && fs.writeFileSync(dest,files[filename]._data.compressedContent);
