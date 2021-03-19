@@ -33,6 +33,7 @@ class WidgetController extends Controller {
     }
     const { presentableId, entityNid } = ctx.query; // entityNid --- parentNid  subDependId --- subResourceIdOrName
     let url = `/v2/auths/presentables/${presentableId}/fileStream?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`;
+    console.log(url)
     request(
       {
         method: "GET",
@@ -40,6 +41,7 @@ class WidgetController extends Controller {
         encoding: null, // <- this one is important !
       },
       function (error, response, body) {
+        console.log(response.headers)
         if (error || response.statusCode !== 200) {
           // handle error
           return;
