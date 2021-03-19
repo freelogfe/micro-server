@@ -107,7 +107,7 @@ function saveZipFiles(savePath, files) {
       Object.keys(files).forEach((filename, index) => {
         if (!files[filename]) return;
         // console.log(filename)
-        const dest = savePath + "\\" + filename;
+        const dest = path.join(savePath, `/${filename}`);  
         // 如果该文件为目录需先创建文件夹  && !isDirSync(dest)
         // console.log(dest, files[filename].dir)
         if (files[filename] && files[filename].dir) {
