@@ -14,8 +14,9 @@ class WidgetController extends Controller {
   async home(ctx) {
     const { subDependId } = ctx.params;
     const { reset } = ctx.query;
-    console.log(reset)
+    console.log('reset:' + reset)
     const savePath = path.join(ctx.app.baseDir, `/widgets/${subDependId}`);
+    console.log('savepath:' + savePath)
     if (fs.existsSync(savePath) && !reset) {
       let data;
       try {
@@ -33,7 +34,7 @@ class WidgetController extends Controller {
     }
     const { presentableId, entityNid } = ctx.query; // entityNid --- parentNid  subDependId --- subResourceIdOrName
     let url = `/v2/auths/presentables/${presentableId}/fileStream?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`;
-    console.log(url)
+    console.log('url:' + url)
     request(
       {
         method: "GET",
@@ -41,8 +42,9 @@ class WidgetController extends Controller {
         encoding: null, // <- this one is important !
       },
       function (error, response, body) {
-        console.log(response.headers)
+        console.log('headers:' + response.headers)
         if (error || response.statusCode !== 200) {
+          console.log('error:' + error)
           // handle error
           return;
         }
