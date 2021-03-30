@@ -48,6 +48,7 @@ class WidgetController extends Controller {
       function (error, response, body) {
         // console.log('headers:' + response.headers)
         if (error || response.statusCode !== 200) {
+          console.log(error, response)
           // console.log('error:' + error)
           // handle error
           return;
