@@ -38,7 +38,7 @@ class WidgetController extends Controller {
     if(!entityNid){
       url = `/v2/auths/presentables/${presentableId}/fileStream`;
     }
-    // console.log('url:' + url)
+    console.log('url:' + url)
     request(
       {
         method: "GET",
