@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.b0c86687941f8f17e424693ad0346159.js"
+  "/precache-manifest.af01b9195a160cbb2a51342bab23815d.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "freelog-waterfall"});
