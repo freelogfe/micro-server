@@ -14,7 +14,6 @@ class WidgetController extends Controller {
   async home(ctx) {
     const { subDependId } = ctx.params;
     const { reset } = ctx.query;
-    console.log(subDependId, 234234)
     // console.log('reset:' + reset)
     const savePath = path.join(ctx.app.baseDir, `/widgets/${subDependId}`);
     // console.log('savepath:' + savePath)
