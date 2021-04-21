@@ -33,10 +33,11 @@ class WidgetController extends Controller {
       ctx.body = data;
       return;
     }
+    console.log(subDependId, presentableId)
     const { presentableId, entityNid } = ctx.query; // entityNid --- parentNid  subDependId --- subResourceIdOrName
     let url = `/v2/auths/presentables/${presentableId}/fileStream?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`;
     if(!entityNid){
-      url = `/v2/auths/presentables/${presentableId}/fileStream`;
+      url = `/v2/auths/presentables/${subDependId}/fileStream`;
     }
     console.log('url:' + url)
     request(
