@@ -12,30 +12,31 @@ var fs = require("fs");
 
 class WidgetController extends Controller {
   async home(ctx) {
-    const { subDependId } = ctx.params;
+    const { resourceId } = ctx.params;
     const { reset } = ctx.query;
-    // console.log('reset:' + reset)
-    const savePath = path.join(ctx.app.baseDir, `/widgets/${subDependId}`);
+    const { presentableId, entityNid, subDependId } = ctx.query; // entityNid --- parentNid  subDependId --- subResourceIdOrName
+    console.log('reset:' + resourceId)
+    const savePath = path.join(ctx.app.baseDir, `/widgets/${resourceId}`);
     // console.log('savepath:' + savePath)
     if (fs.existsSync(savePath) && !reset) {
       let data;
+      console.log()
       try {
         data = fse
           .readFileSync(
-            path.join(ctx.app.baseDir, `/widgets/${subDependId}/index.html`)
+            path.join(ctx.app.baseDir, `/widgets/${resourceId}/index.html`)
           )
           .toString();
         // 等待操作结果返回，然后打印结果
       } catch (e) {
-        console.log("读取文件发生错误");
+        console.log("读取入口文件发生错误");
       }
       ctx.body = data;
       return;
     }
-    const { presentableId, entityNid } = ctx.query; // entityNid --- parentNid  subDependId --- subResourceIdOrName
     let url = `/v2/auths/presentables/${presentableId}/fileStream?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`;
     if(!entityNid){
-      url = `/v2/auths/presentables/${subDependId}/fileStream`;
+      url = `/v2/auths/presentables/${presentableId}/fileStream`;
     }
     console.log('url:' + url)
     request(
@@ -78,14 +79,15 @@ class WidgetController extends Controller {
   }
 
   async staticFile(ctx) {
-    const { subDependId } = ctx.params;
-    const route = ctx.url.split("?")[0].split("static")[1];
+    const { resourceId } = ctx.params;
+    console.log(111111, resourceId)
+    const route = ctx.url.split("?")[0].split(resourceId)[1];
     let data, type; // 6049d014328c0400397791e7
     try {
       let pa = path.join(
         ctx.app.baseDir,
-        `/widgets/${subDependId}/static/${route}`
-      ); // `/widgets/${subDependId}/${route}`)
+        `/widgets/${resourceId}${route}`
+      ); // `/widgets/${resourceId}/${route}`)
       type = mime.getType(pa);
       data = fse.readFileSync(pa);
       // 等待操作结果返回，然后打印结果

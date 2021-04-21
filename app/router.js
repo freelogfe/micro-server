@@ -12,6 +12,4 @@ module.exports = app => {
     const [ method, path ] = key.split(' ')
     router[method](path, objectPath.get(controller, routeMap[key]))
   })
-  console.log(router)
-
 }
