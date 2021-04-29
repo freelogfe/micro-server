@@ -20,7 +20,7 @@ class WidgetController extends Controller {
     // console.log('savepath:' + savePath)
     if (fs.existsSync(savePath) && !reset) {
       let data;
-      console.log()
+      console.log(path.join(ctx.app.baseDir, `/widgets/${resourceId}/index.html`))
       try {
         data = fse
           .readFileSync(
