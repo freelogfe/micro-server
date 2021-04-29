@@ -15,7 +15,7 @@ class WidgetController extends Controller {
     const { resourceId } = ctx.params;
     const { reset } = ctx.query;
     const { presentableId, entityNid, subDependId } = ctx.query; // entityNid --- parentNid  subDependId --- subResourceIdOrName
-    console.log('reset:' + resourceId)
+    console.log('reset:' +reset + '  ' + resourceId)
     const savePath = path.join(ctx.app.baseDir, `/widgets/${resourceId}`);
     // console.log('savepath:' + savePath)
     if (fs.existsSync(savePath) && !reset) {
