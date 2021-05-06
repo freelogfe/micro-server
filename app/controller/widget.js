@@ -42,7 +42,7 @@ class WidgetController extends Controller {
     request(
       {
         method: "GET",
-        url: `http://api.testfreelog.com${url}`,
+        url: `${ctx.config.gatewayUrl}${url}`,
         encoding: null, // <- this one is important !
       },
       function (error, response, body) {
@@ -80,7 +80,6 @@ class WidgetController extends Controller {
 
   async staticFile(ctx) {
     const { resourceId } = ctx.params;
-    console.log(111111, resourceId)
     const route = ctx.url.split("?")[0].split(resourceId)[1];
     let data, type; // 6049d014328c0400397791e7
     try {
