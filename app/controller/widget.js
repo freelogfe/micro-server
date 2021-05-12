@@ -38,12 +38,19 @@ class WidgetController extends Controller {
     if(!entityNid){
       url = `/v2/auths/presentables/${presentableId}/fileStream`;
     }
-    console.log('url:' + url)
+    // const filePath = path.join(ctx.app.baseDir, `/widgets`);
+    // let stream = fs.createWriteStream(path.join(filePath, 'a.zip'));
+    // console.log(ctx)
+    // console.log('url:' + '${ctx.config.gatewayUrl}${url}')
+    // request(`${ctx.config.gatewayUrl}${url}`).pipe(stream)
     request(
       {
         method: "GET",
         url: `${ctx.config.gatewayUrl}${url}`,
         encoding: null, // <- this one is important !
+        headers: {
+          cookie: ctx.request.header.cookie
+        }
       },
       function (error, response, body) {
         // console.log('headers:' + response.headers)
