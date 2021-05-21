@@ -1,1 +1,0 @@
-{"ret":0,"errCode":3,"msg":"subject-authorization-failed","data":{"referee":2,"breachResponsibilityType":4,"authCode":502,"isAuth":false,"data":null,"errorMsg":"未登录的用户"}}
