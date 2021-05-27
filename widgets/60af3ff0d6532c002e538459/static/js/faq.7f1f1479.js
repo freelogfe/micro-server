@@ -1,0 +1,2 @@
+(window["webpackJsonp_vue"]=window["webpackJsonp_vue"]||[]).push([["faq"],{"0e5f":function(e,n,t){"use strict";t.r(n);var s=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{},[e._v(" this is faq ")])},u=[],a={data:function(){return{}},components:{},methods:{}},c=a,o=t("2877"),i=Object(o["a"])(c,s,u,!1,null,"f4d4bec8",null);n["default"]=i.exports}}]);
+//# sourceMappingURL=faq.7f1f1479.js.map

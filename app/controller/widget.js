@@ -12,19 +12,17 @@ var fs = require("fs");
 
 class WidgetController extends Controller {
   async home(ctx) {
-    const { resourceId } = ctx.params;
+    const { widgetName } = ctx.params;
     const { reset } = ctx.query;
     const { presentableId, entityNid, subDependId } = ctx.query; // entityNid --- parentNid  subDependId --- subResourceIdOrName
-    console.log('reset:' +reset + '  ' + resourceId)
-    const savePath = path.join(ctx.app.baseDir, `/widgets/${resourceId}`);
+    const savePath = path.join(ctx.app.baseDir, `/widgets/${widgetName}`);
     // console.log('savepath:' + savePath)
     if (fs.existsSync(savePath) && !reset) {
       let data;
-      console.log(path.join(ctx.app.baseDir, `/widgets/${resourceId}/index.html`))
       try {
         data = fse
           .readFileSync(
-            path.join(ctx.app.baseDir, `/widgets/${resourceId}/index.html`)
+            path.join(ctx.app.baseDir, `/widgets/${widgetName}/index.html`)
           )
           .toString();
         // 等待操作结果返回，然后打印结果
@@ -35,7 +33,7 @@ class WidgetController extends Controller {
       return;
     }
     let url = `/v2/auths/presentables/${presentableId}/fileStream?parentNid=${entityNid}&subResourceIdOrName=${subDependId}`;
-    if(!entityNid){
+    if (!entityNid) {
       url = `/v2/auths/presentables/${presentableId}/fileStream`;
     }
     // const filePath = path.join(ctx.app.baseDir, `/widgets`);
@@ -68,7 +66,7 @@ class WidgetController extends Controller {
                 .readFileSync(
                   path.join(
                     ctx.app.baseDir,
-                    `/widgets/${subDependId}/index.html`
+                    `/widgets/${widgetName}/index.html`
                   )
                 )
                 .toString();
@@ -86,13 +84,13 @@ class WidgetController extends Controller {
   }
 
   async staticFile(ctx) {
-    const { resourceId } = ctx.params;
-    const route = ctx.url.split("?")[0].split(resourceId)[1];
+    const { widgetName } = ctx.params;
+    const route = ctx.url.split("?")[0].split(widgetName)[1];
     let data, type; // 6049d014328c0400397791e7
     try {
       let pa = path.join(
         ctx.app.baseDir,
-        `/widgets/${resourceId}${route}`
+        `/widgets/${widgetName}${route}`
       ); // `/widgets/${resourceId}/${route}`)
       type = mime.getType(pa);
       data = fse.readFileSync(pa);
@@ -100,7 +98,10 @@ class WidgetController extends Controller {
     } catch (e) {
       console.log("读取文件发生错误ss");
     }
-    ctx.set("content-type", type);
+    if (ctx.url.indexOf('element-icons') > -1) {
+      console.log(type)
+    }
+    // ctx.set("content-type", type);
     ctx.body = data;
   }
 }
@@ -119,7 +120,7 @@ function saveZipFiles(savePath, files) {
       Object.keys(files).forEach((filename, index) => {
         if (!files[filename]) return;
         // console.log(filename)
-        const dest = path.join(savePath, `/${filename}`);  
+        const dest = path.join(savePath, `/${filename}`);
         // 如果该文件为目录需先创建文件夹  && !isDirSync(dest)
         // console.log(dest, files[filename].dir)
         if (files[filename] && files[filename].dir) {

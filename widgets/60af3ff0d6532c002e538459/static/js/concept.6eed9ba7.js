@@ -1,0 +1,2 @@
+(window["webpackJsonp_vue"]=window["webpackJsonp_vue"]||[]).push([["concept"],{db35:function(e,n,t){"use strict";t.r(n);var c=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{},[e._v(" this is concept ")])},o=[],s={data:function(){return{}},components:{},methods:{}},u=s,i=t("2877"),r=Object(i["a"])(u,c,o,!1,null,"24608016",null);n["default"]=r.exports}}]);
+//# sourceMappingURL=concept.6eed9ba7.js.map
