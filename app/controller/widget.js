@@ -101,7 +101,7 @@ class WidgetController extends Controller {
     if (ctx.url.indexOf('element-icons') > -1) {
       console.log(type)
     }
-    // ctx.set("content-type", type);
+    ctx.set("content-type", type);
     ctx.body = data;
   }
 }
