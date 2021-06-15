@@ -1,7 +1,8 @@
-// This file is created by egg-ts-helper@1.25.8
+// This file is created by egg-ts-helper
 // Do not modify this file!!!!!!!!!
-
 import 'egg';
+import '@midwayjs/web';
+import 'egg-freelog-base';
 import 'egg-onerror';
 import 'egg-session';
 import 'egg-i18n';
@@ -14,8 +15,9 @@ import 'egg-schedule';
 import 'egg-static';
 import 'egg-jsonp';
 import 'egg-view';
+import 'midway-schedule';
+import 'undefined';
 import 'egg-cors';
-import 'egg-freelog-base';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {
   interface EggPlugin {
@@ -31,7 +33,8 @@ declare module 'egg' {
     static?: EggPluginItem;
     jsonp?: EggPluginItem;
     view?: EggPluginItem;
+    schedulePlus?: EggPluginItem;
+    default?: EggPluginItem;
     cors?: EggPluginItem;
-    eggFreelogBase?: EggPluginItem;
   }
 }

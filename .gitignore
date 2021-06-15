@@ -1,5 +1,4 @@
 logs/
-i18n-repositories/
 npm-debug.log
 yarn-error.log
 node_modules/
@@ -11,5 +10,6 @@ run/
 .DS_Store
 *.sw*
 *.un~
-.history/
-.github/
+.tsbuildinfo
+.tsbuildinfo.*
+.history

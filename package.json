@@ -1,67 +1,65 @@
 {
-  "name": "micro-server",
+  "name": "freelog-node-accessor",
   "version": "1.0.0",
-  "description": "micro server for freelog",
+  "description": "",
   "private": true,
   "egg": {
-    "declarations": true
+    "framework": "egg-freelog-base"
   },
   "dependencies": {
-    "egg": "^2.26.0",
+    "@eggjs/http-proxy": "^1.1.0",
+    "@midwayjs/bootstrap": "^2.3.0",
+    "@midwayjs/core": "^2.3.0",
+    "@midwayjs/decorator": "^2.3.0",
+    "@midwayjs/web": "^2.3.0",
+    "egg": "^2.0.0",
     "egg-cors": "^2.2.3",
-    "egg-freelog-base": "^3.1.1",
-    "egg-scripts": "^2.5.0",
-    "extend": "^3.0.2",
-    "fs-extra": "^8.1.0",
-    "http-proxy-middleware": "^1.0.4",
-    "is-type-of": "^1.2.0",
+    "egg-freelog-base": "^3.1.17",
+    "egg-scripts": "^2.10.0",
     "jszip": "^3.6.0",
-    "koa-validate": "^1.0.7",
-    "koa2-connect": "^1.0.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
+    "midway": "^2.10.19",
     "mime": "^2.5.2",
-    "nodegit": "^0.26.4",
-    "object-path": "^0.11.4",
-    "ora": "^4.0.3",
-    "path-to-regexp": "^2.4.0",
-    "shelljs": "^0.8.3",
-    "validator": "^13.1.1",
-    "walk": "^2.3.14"
+    "path-to-regexp": "2.4.0",
+    "request": "^2.88.2"
   },
   "devDependencies": {
-    "autod": "^3.0.1",
-    "autod-egg": "^1.0.0",
-    "egg-bin": "^4.3.5",
-    "egg-ci": "^1.8.0",
-    "egg-mock": "^3.14.0",
-    "eslint": "^4.11.0",
-    "eslint-config-egg": "^6.0.0",
-    "husky": "^1.1.4",
-    "webstorm-disable-index": "^1.2.0"
-  },
-  "husky": {
-    "hooks": {}
+    "@midwayjs/cli": "^1.0.0",
+    "@midwayjs/egg-ts-helper": "^1.0.1",
+    "@midwayjs/luckyeye": "^1.0.0",
+    "@midwayjs/mock": "^2.3.0",
+    "@types/jest": "^26.0.10",
+    "@types/node": "14",
+    "cross-env": "^6.0.0",
+    "jest": "^26.4.0",
+    "mwts": "^1.0.5",
+    "ts-jest": "^26.2.0",
+    "typescript": "^4.0.0"
   },
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --title=egg-server-micro-server",
-    "stop": "egg-scripts stop --title=egg-server-micro-server",
-    "dev": "egg-bin dev",
-    "debug": "egg-bin debug",
-    "test": "npm run test-local",
-    "test-local": "egg-bin test",
-    "cov": "egg-bin cov",
-    "lint": "eslint . --fix",
+    "start": "egg-scripts start --title=freelog-node-accessor --workers=1 --framework=midway",
+    "stop": "egg-scripts stop --title=my-midway-project",
+    "start_build": "npm run build && cross-env NODE_ENV=development midway-bin dev",
+    "dev": "cross-env ets && cross-env NODE_ENV=local midway-bin dev --ts --port 7001",
+    "test": "midway-bin test --ts",
+    "cov": "midway-bin cov --ts",
+    "lint": "mwts check",
+    "lint:fix": "mwts fix",
     "ci": "npm run cov",
-    "autod": "autod",
-    "pack": "tar -zcf micro-server.tar app config app.js",
-    "start:https": "egg-scripts start --https.key='./cert/server_ca.key' --https.cert='./cert/server_ca.crt' --title=egg-server-micro-server",
-    "build:docker": "docker build -t=freelog/micro-server -f Dockerfile-aliyun ."
+    "build": "midway-bin build -c",
+    "check": "luckyeye"
   },
-  "ci": {
-    "version": "8"
+  "midway-bin-clean": [
+    ".vscode/.tsbuildinfo",
+    "dist"
+  ],
+  "midway-luckyeye": {
+    "packages": [
+      "midway_v2"
+    ]
   },
   "repository": {
     "type": "git",
