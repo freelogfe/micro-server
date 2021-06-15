@@ -42,8 +42,9 @@ class HttpProxy {
     if (options.withCredentials === undefined) options.withCredentials = true; // this.config.withCredentials;
     let urlObj =  new URL(ctx.href.replace(':7001', ''));
     console.log(host)
-    console.log(urlObj, host)
+    // console.log(urlObj, host)
     urlObj.host = host;
+    console.log(urlObj, host)
     if (options.rewrite) {
       urlObj = options.rewrite(urlObj);
       assert(urlObj, 'options.rewrite must return urlObj');
@@ -124,7 +125,7 @@ class HttpProxy {
 
     // send request
     const targetUrl = urlObj.toString();
-    console.log(urlObj, targetUrl)
+    console.log(1111, urlObj, targetUrl)
     let proxyResult;
     try {
       proxyResult = await ctx.curl(targetUrl, options);
