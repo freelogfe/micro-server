@@ -14,6 +14,7 @@ export class APIController {
 
   @All('/v1/*')
   async v1() {
+    console.log('api', this.app.config.gatewayUrl)
     await this.ctx.proxyRequest(this.app.config.gatewayUrl);
   }
   @All('/v2/*')

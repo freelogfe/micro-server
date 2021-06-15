@@ -14,7 +14,7 @@ class HttpProxy {
     this.logger = this.ctx.getLogger('httpProxyLogger');
     this.ip = address.ip();
   }
-
+ 
   /**
    * send http proxy base on {@link HttpClient}.
    *
@@ -25,7 +25,6 @@ class HttpProxy {
    */
   async curl(host, options) {
     const { ctx } = this;
-
     const defaultOptions = {
       timeout: this.config.timeout,
       agent: this.config.agent,
@@ -42,6 +41,8 @@ class HttpProxy {
 
     if (options.withCredentials === undefined) options.withCredentials = true; // this.config.withCredentials;
     let urlObj =  new URL(ctx.href.replace(':7001', ''));
+    console.log(host)
+    console.log(urlObj, host)
     urlObj.host = host;
     if (options.rewrite) {
       urlObj = options.rewrite(urlObj);
