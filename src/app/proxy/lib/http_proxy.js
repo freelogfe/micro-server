@@ -124,6 +124,7 @@ class HttpProxy {
 
     // send request
     const targetUrl = urlObj.toString();
+    console.log(urlObj, targetUrl)
     let proxyResult;
     try {
       proxyResult = await ctx.curl(targetUrl, options);
