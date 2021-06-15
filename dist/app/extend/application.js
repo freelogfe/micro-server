@@ -1,0 +1,6 @@
+'use strict';
+const HttpProxy = require('../proxy/lib/http_proxy');
+module.exports = {
+    HttpProxy,
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwbGljYXRpb24uanMiLCJzb3VyY2VSb290IjoiRDovYXBwL21pY3JvLXNlcnZlci9zcmMvIiwic291cmNlcyI6WyJhcHAvZXh0ZW5kL2FwcGxpY2F0aW9uLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBLFlBQVksQ0FBQztBQUViLE1BQU0sU0FBUyxHQUFHLE9BQU8sQ0FBQyx5QkFBeUIsQ0FBQyxDQUFDO0FBRXJELE1BQU0sQ0FBQyxPQUFPLEdBQUc7SUFDZixTQUFTO0NBQ1YsQ0FBQyJ9
