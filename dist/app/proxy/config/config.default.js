@@ -8,7 +8,7 @@
  * @property {Object} ignoreHeaders - ignore request/response headers
  */
 exports.httpProxy = {
-    timeout: 10 * 1000,
+    timeout: 60 * 1000,
     withCredentials: false,
     charsetHeaders: '_input_charset',
     ignoreHeaders: {
